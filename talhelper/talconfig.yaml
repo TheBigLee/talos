@@ -1,0 +1,85 @@
+---
+clusterName: talos-cluster
+talosVersion: v1.11.5
+kubernetesVersion: v1.34.2
+
+endpoint: https://talos.bigli.io:6443
+
+domain: cluster.local
+
+allowSchedulingOnControlPlanes: true
+
+cniConfig:
+  name: none
+
+# IPv4 pod and service networks
+clusterPodNets:
+  - 10.244.0.0/16           # IPv4
+clusterSvcNets:
+  - 10.96.0.0/12            # IPv4
+
+additionalMachineCertSans:
+  - 91.98.1.136
+  - 2a01:4f8:1c1f:6001::1
+  - talos.bigli.io
+
+additionalApiServerCertSans:
+  - 91.98.1.136
+  - 2a01:4f8:1c1f:6001::1
+  - talos.bigli.io
+
+controlPlane:
+  patches:
+    # Disable default CNI and kube-proxy (Cilium replaces both)
+    - |-
+      cluster:
+        network:
+          cni:
+            name: none
+        proxy:
+          disabled: true
+        etcd:
+          advertisedSubnets:
+            - 10.0.1.0/24
+    
+    # Machine configuration
+    - |-
+      machine:
+        kubelet:
+          nodeIP:
+            validSubnets:
+              - 10.0.1.0/24
+  schematic:
+    customization:
+      systemExtensions:
+        officialExtensions:
+          - siderolabs/tailscale
+  extensionServices:
+    - name: tailscale
+      environment:
+        - TS_AUTHKEY=${TAILSCALE_AUTH_KEY}
+        - TS_EXTRA_ARGS=--login-server=https://headscale.bigli.io
+
+nodes:
+  - hostname: talos-cp1
+    controlPlane: true
+    ipAddress: ${TALOS_CP1_IP}
+    installDisk: /dev/sda
+    nodeLabels:
+      topology.kubernetes.io/region: eu-central
+      topology.kubernetes.io/zone: nbg1
+  - hostname: talos-cp2
+    controlPlane: true
+    ipAddress: ${TALOS_CP2_IP}
+    installDisk: /dev/sda
+    nodeLabels:
+      topology.kubernetes.io/region: eu-central
+      topology.kubernetes.io/zone: nbg1
+
+  - hostname: talos-cp3
+    controlPlane: true
+    ipAddress: ${TALOS_CP3_IP}
+    installDisk: /dev/sda
+    nodeLabels:
+      topology.kubernetes.io/region: eu-central
+      topology.kubernetes.io/zone: nbg1

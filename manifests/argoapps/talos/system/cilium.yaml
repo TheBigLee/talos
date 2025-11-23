@@ -1,0 +1,84 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cilium
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  source:
+    chart: cilium
+    repoURL: https://helm.cilium.io/
+    targetRevision: 1.18.2
+    helm:
+      parameters:
+      - name: k8sServiceHost
+        value: localhost
+      - name: k8sServicePort
+        value: "7445"
+      values: |
+        ipam:
+          mode: kubernetes
+        ipv4:
+          enabled: true
+        ipv6:
+          enabled: false
+        l2announcements:
+          enabled: true
+          leaseDuration: 3s
+          leaseRenewDeadline: 1s
+          leaseRetryPeriod: 500ms
+        kubeProxyReplacement: true
+        ipv4NativeRoutingCIDR: 10.0.16.0/20
+        enableIPv4Masquerade: true
+        cluster:
+          name: talos-cluster
+          id: 1
+        cgroup:
+          autoMount:
+            enabled: false
+          hostRoot: /sys/fs/cgroup
+        gatewayAPI:
+          enabled: false
+        hubble:
+          enable: true
+          relay:
+            enabled: true
+          ui:
+            enabled: true
+        securityContext:
+          capabilities:
+            ciliumAgent:
+              - "CHOWN"
+              - "KILL"
+              - "NET_ADMIN"
+              - "NET_RAW"
+              - "IPC_LOCK"
+              - "SYS_ADMIN"
+              - "SYS_RESOURCE"
+              - "DAC_OVERRIDE"
+              - "FOWNER"
+              - "SETGID"
+              - "SETUID"
+            cleanCiliumState:
+              - "NET_ADMIN"
+              - "SYS_ADMIN"
+              - "SYS_RESOURCE"
+        rollOutCiliumPods: true
+        operator:
+          rollOutPods: true
+        certgen:
+          # Workaround to keep the generated job around for 30d
+          # as this makes the argo app unsynced
+          ttlSecondsAfterFinished: 2592000
+  destination:
+    namespace: kube-system
+    server: https://kubernetes.default.svc
+  project: system
+  syncPolicy:
+    syncOptions:
+    - ServerSideApply=true
+    automated:
+      selfHeal: false
+    automated:
+      prune: true

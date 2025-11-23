@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+    name: desec-token
+    namespace: cert-manager
+stringData:
+    desec-token: ENC[AES256_GCM,data:y8guVX80LotAdfK7tQGRz0jk4IAALpJB5fEjoQ==,iv:nmfIeS69Bpzj4DuCMtLZIQn8gBoava2gwS6tbxLS14Y=,tag:UZ+HSIi6Zvbfg0Zl4MFp7g==,type:str]
+sops:
+    age:
+        - recipient: age1sqcyumdyut9t3e4557wxawwnvxlqt7wsprtfzgdzw984nlf5jsnqxsyv8z
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSArdkZWN2hzL1hWU1JZcjlE
+            NEVGR3diTktPZGlFSjRpb3lqREYvdWFwcWhzCnV6TEZYKzRYbEJpMWJ4ZzhuOFBC
+            a29ReEhINTNadFF4aVM2cHVtbENVUWcKLS0tIGRHUDdFUnpwRkdTc3l0RWVTQW5w
+            REUwcTBqZXQ5VVlkQ09kVmllVXdGdTgK0oA2eGcs0WnhtNCVXfdo5+J9kk9byuaA
+            4h3dTbwP8uG/EblWv6d5OO7zE9kU7vHBx5hQrIF/AOp8UyF/Dp83Hg==
+            -----END AGE ENCRYPTED FILE-----
+        - recipient: age1wk95zsslqpulwrvuywuhpza0h0gpwzwxq04f536at67p50ec4g5sex6g9r
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBoYVB3UkpISGtWeFA3elV2
+            c3F1ZlVSbXlFMFhOMW5sdmg1dlYrckVId2dZCi9ZZzQ5WEhlMlVOdnJ1aDVnVkFQ
+            d1hCQUl3cVJRdkFCZkNwWG1yTGxQY0kKLS0tIFZNUXFkdnR2dWZ1TGx0VXNXS3o3
+            ck1JUTJoMzlGVko1NURNVUMxVjlsMkkKv2Ii5VZcwKtvW9hD1UgP5pw9e9cw+XhD
+            l2QOtt72ANRtU6u77jNf39j4zC533fb/T/8/PB493mIQn6MOpD6cig==
+            -----END AGE ENCRYPTED FILE-----
+        - recipient: age18uhtqch7u93g56mqehhtp3nxvhhf0mq9tpqqdlvqu28hluxy5d4s4jampd
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBWUXBHNmtoNEd2STlKaVdt
+            TStvRzQ5TlZ5TFBJSFAxby9WWnpWeDZ1SUJnCnJOUmJqdC93UE1HWkQyMXNGWkZt
+            VStRVHdEaWxWazNHTDJObmIzZzdUTk0KLS0tIGFZeTE5VzRyZ3EzdmxxOEFUbnRP
+            ZHVSMkcyOElHUTR5N08zSHRlV1lIWHMKofUWwhaO0BI58UK6UmQ8xJ6Oeo6GdWpW
+            1FzgSPvPU8X6XhqNCdmRCJy3TgHY7r4ML8+dUyuQyNGy9mFc5+oUfg==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2025-04-01T15:48:57Z"
+    mac: ENC[AES256_GCM,data:0g/Jd7rtCizvSX7ikIFWtyt0amb0p1E76kPU683kMEKlX8h57m65TYEaF0FkISODULkbfgub9NL6bVjRQjalapPJ6YbSyRXGSluU8IonIUu+0qlS+b0851QzBxgWynGeh5K6/zFPPVzGFNmB8N1TDHu0ycObrpvx4PBVgJKLOs0=,iv:lJa3ui4okx2JLO9azmdfp5H+/eVXkxfOdPUWdGDsmIg=,tag:WVyrmWOu/cIk4Xz6idEyXw==,type:str]
+    encrypted_regex: ^(data|stringData)$
+    version: 3.9.4

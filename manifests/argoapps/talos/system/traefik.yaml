@@ -1,0 +1,82 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: traefik
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  sources:
+    - path: manifests/apps/talos/_system/traefik
+      repoURL: https://github.com/TheBigLee/talos.git
+      targetRevision: HEAD
+    - chart: traefik
+      repoURL: https://traefik.github.io/charts
+      targetRevision: 37.4.0
+      helm:
+        values: |
+          ports:
+            web:
+              nodePort: 30000
+            websecure:
+              nodePort: 30001
+          service:
+            externalIPs:
+              - 91.98.1.136
+              - 2a01:4f8:1c1f:6001::1
+          api:
+            dashboard: true
+
+          ingressRoute:
+            dashboard:
+              enabled: true
+              matchRule: Host(`traefik-dashboard.bigli.io`)
+              entrypoints:
+                - websecure
+              middlewares:
+                - name: dashboard-auth
+          ingressClass:
+            enabled: false
+
+          providers:
+            kubernetesIngress:
+              enabled: false
+            kubernetesGateway:
+              enabled: true
+          gateway:
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt-prod-desec
+            listeners:
+              web:
+                hostname: '*.bigli.io'
+                namespacePolicy:
+                  from: All
+              websecure:
+                port: 8443
+                protocol: HTTPS
+                hostname: '*.bigli.io'
+                namespacePolicy:
+                  from: All
+                mode: Terminate
+                certificateRefs:
+                  - kind: Secret
+                    name: wildcard-bigli-io-tls
+                    group: ""
+          logs:
+            general:
+              level: TRACE
+            access: 
+              enabled: true
+                
+          
+  destination:
+    namespace: traefik-system
+    server: https://kubernetes.default.svc
+  project: system
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+    - ServerSideApply=true
+    automated:
+      prune: true
+      selfHeal: false

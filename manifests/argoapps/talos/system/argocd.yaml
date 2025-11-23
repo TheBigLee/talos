@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: system
+  source:
+    path: manifests/apps/talos/_system/argocd
+    repoURL: https://github.com/TheBigLee/talos.git
+    targetRevision: HEAD
+  destination:
+    namespace: argocd
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      selfHeal: false
+    syncOptions:
+      - CreateNamespace=true

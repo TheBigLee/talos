@@ -1,0 +1,17 @@
+keys:
+  - &bigli_Thor age1sqcyumdyut9t3e4557wxawwnvxlqt7wsprtfzgdzw984nlf5jsnqxsyv8z
+  - &bigli_Freya age1wk95zsslqpulwrvuywuhpza0h0gpwzwxq04f536at67p50ec4g5sex6g9r
+  - &talos_cluster age18uhtqch7u93g56mqehhtp3nxvhhf0mq9tpqqdlvqu28hluxy5d4s4jampd
+creation_rules:
+  - path_regex: "^manifests/.*/.*sops.yaml$"
+    encrypted_regex: (^data|stringData)$
+    key_groups:
+    - age:
+      - *bigli_Thor
+      - *bigli_Freya
+      - *talos_cluster
+  - path_regex: .*.(\.sops\.yaml)$
+    key_groups:
+    - age:
+      - *bigli_Thor
+      - *bigli_Freya

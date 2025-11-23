@@ -1,0 +1,57 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: immich
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: apps
+  sources:
+    - chart: immich
+      repoURL: ghcr.io/immich-app/immich-charts
+      targetRevision: 0.10.3
+      helm:
+        values: |
+          controllers:
+            main:
+              containers:
+                main:
+                  image:
+                    tag: v2.2.3
+                  env:
+                    DB_PASSWORD:
+                      valueFrom:
+                        secretKeyRef:
+                          name: immich-postgres-user
+                          key: password
+                    DB_HOSTNAME: immich-postgres-rw
+                    DB_USERNAME:
+                      valueFrom:
+                        secretKeyRef:
+                          name: immich-postgres-user
+                          key: username
+                    DB_DATABASE_NAME: immich
+          immich:
+            persistence:
+              library:
+                existingClaim: immich-data
+          valkey:
+            enabled: true
+          server:
+            enabled: true
+          machine-learning:
+            persistence:
+              cache:
+                storageClass: hcloud-volumes
+    - path: manifests/apps/talos/immich
+      repoURL: https://github.com/TheBigLee/talos.git
+      targetRevision: HEAD
+  destination:
+    namespace: immich
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true

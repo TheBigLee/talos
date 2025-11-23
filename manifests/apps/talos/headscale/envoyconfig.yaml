@@ -1,0 +1,21 @@
+apiVersion: cilium.io/v2
+kind: CiliumEnvoyConfig
+metadata:
+  name: headscale-upgrade
+spec:
+  services:
+    - name: headscale
+      namespace: headscale
+  resources:
+    - "@type": type.googleapis.com/envoy.config.route.v3.RouteConfiguration
+      name: headscale-routes
+      virtual_hosts:
+        - name: headscale.bigli.io
+          domains: ["headscale.bigli.io"]
+          routes:
+            - match:
+                prefix: "/"
+              route:
+                cluster: headscale/headscale/8080
+                upgrade_configs:
+                  - upgrade_type: "tailscale-control-protocol"
