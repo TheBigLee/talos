@@ -22,7 +22,7 @@ spec:
                 passwordKey: "redis-password"
     - chart: nextcloud
       repoURL: https://nextcloud.github.io/helm/
-      targetRevision: 8.5.2
+      targetRevision: 8.6.0
       helm:
         values: |
           image:
