@@ -1,0 +1,163 @@
+  {
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "labels": [
+      "maintenance"
+    ],
+    "dependencyDashboard": true,
+    "enabledManagers": [
+      "kubernetes",
+      "argocd",
+      "regex"
+    ],
+    "kubernetes": {
+      "fileMatch": [
+        "^apps/.*\\.yaml$"
+      ]
+    },
+    "argocd": {
+      "fileMatch": [
+        "argoapps/.+\\.yaml$"
+      ]
+    },
+    "major": {
+      "enabled": true
+    },
+    "recreateWhen": "always",
+    "rebaseWhen": "conflicted",
+    "prHourlyLimit": 0,
+    "branchConcurrentLimit": 0,
+    "packageRules": [
+      {
+        "matchUpdateTypes": [
+          "patch",
+          "digest"
+        ],
+        "matchCurrentVersion": "!/^0/",
+        "requiredStatusChecks": null,
+        "automerge": true
+      },
+      {
+        "datasources": [
+          "docker",
+          "helm"
+        ],
+        "major": {
+          "enabled": true
+        }
+      },
+      {
+        "paths": [
+          "manifests/argoapps/talos/system/k8up.yaml",
+          "manifests/argoapps/talos/nextcloud.yaml"
+        ],
+        "automerge": true,
+        "requiredStatusChecks": null
+      },
+      {
+        "matchPackageNames": [
+          "nextcloud"
+        ],
+        "matchPaths": [
+          "manifests/argoapps/talos/nextcloud.yaml"
+        ],
+        "matchManagers": [
+          "regex"
+        ],
+        "matchDatasources": [
+          "docker"
+        ],
+        "major": {
+          "enabled": true
+        },
+        "matchUpdateTypes": [
+          "minor",
+          "patch",
+          "pin",
+          "digest"
+        ],
+        "automerge": true
+      },
+      {
+        "matchPackageNames": [
+          "nextcloud"
+        ],
+        "matchPaths": [
+          "manifests/argoapps/talos/nextcloud.yaml"
+        ],
+        "matchManagers": [
+          "regex"
+        ],
+        "matchDatasources": [
+          "docker"
+        ],
+        "matchUpdateTypes": [
+          "major"
+        ],
+        "automerge": false
+      },
+      {
+        "matchPackageNames": [
+          "immich-app/immich"
+        ],
+        "matchPaths": [
+          "manifests/argoapps/talos/immich.yaml"
+        ],
+        "matchManagers": [
+          "regex"
+        ],
+        "matchDatasources": [
+          "github-releases"
+        ],
+        "matchUpdateTypes": [
+          "major"
+        ],
+        "automerge": false,
+        "description": "Prevent automerge of major updates for immich"
+      },
+      {
+        "matchPackageNames": [
+          "immich-app/immich"
+        ],
+        "matchPaths": [
+          "manifests/argoapps/talos/immich.yaml"
+        ],
+        "matchManagers": [
+          "regex"
+        ],
+        "matchDatasources": [
+          "github-releases"
+        ],
+        "matchUpdateTypes": [
+          "minor",
+          "patch"
+        ],
+        "automerge": true,
+        "requiredStatusChecks": null,
+        "description": "Automerge non-major immich updates"
+      }
+    ],
+    "customManagers": [
+      {
+        "fileMatch": [
+          "manifests/argoapps/talos/nextcloud.yaml"
+        ],
+        "matchStrings": [
+          "tag:\\s*\"?(?<currentValue>[\\d\\.]+-fpm)\"?"
+        ],
+        "depNameTemplate": "nextcloud",
+        "datasourceTemplate": "docker",
+        "packageNameTemplate": "nextcloud"
+      },
+      {
+        "fileMatch": [
+          "manifests/argoapps/talos/immich.yaml"
+        ],
+        "matchStrings": [
+          "tag:\\s*\"?(?<currentValue>v\\d+\\.\\d+\\.\\d+)\"?"
+        ],
+        "depNameTemplate": "immich-app/immich",
+        "datasourceTemplate": "github-releases",
+        "packageNameTemplate": "immich-app/immich"
+      }
+    ]
+  }
