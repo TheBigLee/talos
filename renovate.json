@@ -28,8 +28,10 @@
     "branchConcurrentLimit": 0,
     "packageRules": [
       {
+        "matchPackageNames": ["cert-manager"],
         "matchDatasources": ["helm"],
-        "registryUrls": [ "oci://quay.io/jetstack/charts" ]
+        "matchPaths": ["manifests/argoapps/talos/system/cert-manager.yaml"],
+        "registryUrls": ["oci://quay.io/jetstack/charts"]
       },
       {
         "matchUpdateTypes": [
