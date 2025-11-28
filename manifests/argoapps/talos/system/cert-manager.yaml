@@ -11,7 +11,7 @@ spec:
       repoURL: https://github.com/TheBigLee/talos.git
       targetRevision: HEAD
     - chart: cert-manager
-      repoURL: oci://quay.io/jetstack/charts/cert-manager
+      repoURL: https://charts.jetstack.io
       targetRevision: v1.19.1
       helm:
         parameters:
