@@ -29,10 +29,9 @@
     "packageRules": [
       {
         "matchPackageNames": ["cert-manager"],
-        "matchDatasources": ["helm"],
-        "matchManagers": ["argocd"],
         "matchPaths": ["manifests/argoapps/talos/system/cert-manager.yaml"],
-        "registryUrls": ["oci://quay.io/jetstack/charts"]
+        "matchDatasources": ["docker"],
+        "enabled": false
       },
       {
         "matchUpdateTypes": [
