@@ -8,7 +8,7 @@ metadata:
 spec:
   project: apps
   sources:
-    - path: manifests/talos/jellyfin
+    - path: manifests/apps/talos/jellyfin
       repoURL: https://github.com/TheBigLee/talos.git
       targetRevision: HEAD
   destination:
