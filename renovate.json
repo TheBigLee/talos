@@ -28,12 +28,6 @@
     "branchConcurrentLimit": 0,
     "packageRules": [
       {
-        "matchPackageNames": ["cert-manager"],
-        "matchPaths": ["manifests/argoapps/talos/system/cert-manager.yaml"],
-        "matchDatasources": ["docker"],
-        "enabled": false
-      },
-      {
         "matchUpdateTypes": [
           "patch",
           "digest"
