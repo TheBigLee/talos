@@ -28,6 +28,10 @@
     "branchConcurrentLimit": 0,
     "packageRules": [
       {
+        "matchDatasources": ["helm"],
+        "registryUrls": [ "oci://quay.io/jetstack/charts" ]
+      },
+      {
         "matchUpdateTypes": [
           "patch",
           "digest"
