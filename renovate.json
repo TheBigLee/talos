@@ -11,12 +11,12 @@
     ],
     "kubernetes": {
       "fileMatch": [
-        "^apps/.*\\.yaml$"
+        "^manifests/apps/.*\\.yaml$"
       ]
     },
     "argocd": {
       "fileMatch": [
-        "argoapps/.+\\.yaml$"
+        "manifests/argoapps/.+\\.yaml$"
       ]
     },
     "major": {
@@ -30,6 +30,7 @@
       {
         "matchPackageNames": ["cert-manager"],
         "matchDatasources": ["helm"],
+        "matchManagers": ["argocd"],
         "matchPaths": ["manifests/argoapps/talos/system/cert-manager.yaml"],
         "registryUrls": ["oci://quay.io/jetstack/charts"]
       },
