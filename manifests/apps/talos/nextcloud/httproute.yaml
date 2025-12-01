@@ -7,9 +7,27 @@ spec:
   parentRefs:
   - name: traefik-gateway
     namespace: traefik-system
+    sectionName: websecure
   hostnames:
   - "nextcloud.bigli.io"
   rules:
   - backendRefs:
     - name: nextcloud
       port: 8080
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: nextcloud-route-redirect
+spec:
+  parentRefs:
+  - name: traefik-gateway
+    namespace: traefik-system
+    sectionName: web
+  hostnames:
+  - "nextcloud.bigli.io"
+  rules:
+  - filters:
+    - type: RequestRedirect
+      requestRedirect:
+        scheme: https
