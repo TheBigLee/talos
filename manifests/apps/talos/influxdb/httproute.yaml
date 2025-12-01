@@ -9,7 +9,7 @@ spec:
     namespace: traefik-system
     sectionName: websecure
   hostnames:
-  - "influxdb.bigli.io"
+  - "influx.bigli.io"
   rules:
   - backendRefs:
     - name: influxdb
@@ -25,7 +25,7 @@ spec:
     namespace: traefik-system
     sectionName: web
   hostnames:
-  - "influxdb.bigli.io"
+  - "influx.bigli.io"
   rules:
   - filters:
     - type: RequestRedirect
