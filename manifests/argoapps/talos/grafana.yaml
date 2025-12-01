@@ -17,7 +17,8 @@ spec:
             GF_AUTH_ANONYMOUS_ENABLED: true
             GF_SERVER_DOMAIN: graphs.bigli.io
             GF_SERVER_ROOT_URL: https://graphs.bigli.io
-
+          deploymentStrategy:
+            type: Recreate
           persistence:
             enabled: true
             size: 1Gi
