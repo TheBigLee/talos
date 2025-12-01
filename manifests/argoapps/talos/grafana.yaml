@@ -30,7 +30,7 @@ spec:
             datasources:
               initDatasources: true
               enabled: true
-    - path: apps/k3s/grafana
+    - path: manifests/apps/talos/grafana
       repoURL: https://github.com/TheBigLee/talos.git
       targetRevision: HEAD
   destination:

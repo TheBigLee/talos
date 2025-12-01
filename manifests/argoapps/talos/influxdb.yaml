@@ -24,7 +24,7 @@ spec:
           persistence:
             existingClaim: influxdb-data-influxdb-0
 
-    - path: apps/k3s/influxdb
+    - path: manifests/apps/talos/influxdb
       repoURL: https://github.com/TheBigLee/talos.git
       targetRevision: HEAD
   destination:
