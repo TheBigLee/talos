@@ -1,0 +1,15 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: paperless-ngx
+  namespace: paperless-ngx
+spec:
+  parentRefs:
+    - name: talos-gateway
+      namespace: gateway-system
+  hostnames:
+    - paperless.bigli.io
+  rules:
+    - backendRefs:
+        - name: paperless-ngx
+          port: 8000

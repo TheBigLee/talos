@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: paperless-ngx
+  namespace: paperless-ngx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: paperless-ngx
+  template:
+    metadata:
+      labels:
+        app: paperless-ngx
+    spec:
+      containers:
+        - name: paperless-ngx
+          image: ghcr.io/paperless-ngx/paperless-ngx:2.13.5
+          ports:
+            - containerPort: 8000
+          env:
+            - name: PAPERLESS_DBENGINE
+              value: postgresql
+            - name: PAPERLESS_DBHOST
+              value: paperless-ngx-postgres-rw
+            - name: PAPERLESS_DBNAME
+              value: paperless
+            - name: PAPERLESS_DBUSER
+              valueFrom:
+                secretKeyRef:
+                  name: paperless-ngx-postgres-user
+                  key: username
+            - name: PAPERLESS_DBPASS
+              valueFrom:
+                secretKeyRef:
+                  name: paperless-ngx-postgres-user
+                  key: password
+            - name: PAPERLESS_URL
+              value: https://paperless.bigli.io
+            - name: PAPERLESS_CSRF_TRUSTED_ORIGINS
+              value: https://paperless.bigli.io
+            - name: PAPERLESS_CORS_ALLOWED_HOSTS
+              value: https://paperless.bigli.io
+            - name: PAPERLESS_REDIS
+              value: redis://paperless-ngx-valkey:6379
+            - name: PAPERLESS_ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: paperless-ngx-admin
+                  key: username
+            - name: PAPERLESS_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: paperless-ngx-admin
+                  key: password
+          volumeMounts:
+            - name: data
+              mountPath: /usr/src/paperless/data
+            - name: data
+              mountPath: /usr/src/paperless/media
+              subPath: media
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: paperless-ngx-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: paperless-ngx
+  namespace: paperless-ngx
+spec:
+  selector:
+    app: paperless-ngx
+  ports:
+    - port: 8000
+      targetPort: 8000
