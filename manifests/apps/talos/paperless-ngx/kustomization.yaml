@@ -4,7 +4,6 @@ resources:
   - backup.yaml
   - deployment.yaml
   - httproute.yaml
-  - paperless-ai-deployment.yaml
   - pg.yaml
   - pvc.yaml
 generators:
