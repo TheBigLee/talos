@@ -3,15 +3,17 @@ kind: Cluster
 metadata:
   name: paperless-ngx-postgres
   namespace: paperless-ngx
+  annotations:
+    k8up.io/backupcommand: '/bin/bash -c "pg_dump -Fc -d paperless"'
 spec:
   instances: 1
-  primaryUpdateStrategy: unsupervised
   bootstrap:
     initdb:
       database: paperless
       owner: paperless
       secret:
         name: paperless-ngx-postgres-user
+
   storage:
     size: 10Gi
     storageClass: hcloud-volumes
