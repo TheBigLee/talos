@@ -5,8 +5,8 @@ metadata:
   namespace: paperless-ngx
 spec:
   parentRefs:
-    - name: talos-gateway
-      namespace: gateway-system
+    - name: traefik-gateway
+      namespace: traefik-system
   hostnames:
     - paperless.bigli.io
   rules:
