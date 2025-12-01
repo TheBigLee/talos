@@ -1,0 +1,43 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: grafana
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: apps
+  sources:
+    - chart: grafana
+      repoURL: https://grafana.github.io/helm-charts
+      targetRevision: 10.1.4
+      helm:
+        values: |
+          env:
+            GF_AUTH_ANONYMOUS_ENABLED: true
+            GF_SERVER_DOMAIN: graphs.bigli.io
+            GF_SERVER_ROOT_URL: https://graphs.bigli.io
+
+          persistence:
+            enabled: true
+            size: 1Gi
+            storageClassName: hcloud-volumes
+          rbac:
+            namespaced: true
+          admin:
+            existingSecret: admin-creds
+          sidecar:
+            datasources:
+              initDatasources: true
+              enabled: true
+    - path: apps/k3s/grafana
+      repoURL: https://github.com/TheBigLee/talos.git
+      targetRevision: HEAD
+  destination:
+    namespace: grafana
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true

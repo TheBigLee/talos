@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: influxdb
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: apps
+  sources:
+    - chart: influxdb
+      repoURL: https://helm.influxdata.com
+      targetRevision: 4.12.5
+      helm:
+        values: |
+          config:
+            reporting_disabled: true
+            http:
+              auth-enabled: true
+          setDefaultUser:
+            enabled: true
+            user:
+              existingSecret: influx-credentials
+          persistence:
+            existingClaim: influxdb-data-influxdb-0
+
+    - path: apps/k3s/influxdb
+      repoURL: https://github.com/TheBigLee/talos.git
+      targetRevision: HEAD
+  destination:
+    namespace: influxdb
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
