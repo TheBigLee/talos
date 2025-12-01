@@ -122,7 +122,7 @@ spec:
     - name: traefik-gateway
       namespace: traefik-system
   hostnames:
-  - "jellyfin-test.bigli.io"
+  - "jellyfin.bigli.io"
   rules:
   - backendRefs:
     - name: jellyfin
