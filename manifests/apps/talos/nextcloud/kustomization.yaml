@@ -4,6 +4,5 @@ resources:
   - backup.yaml
   - configmap.yaml
   - httproute.yaml
-  - pg.yaml
 generators:
   - secret-generator.yaml

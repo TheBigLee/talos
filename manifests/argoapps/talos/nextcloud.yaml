@@ -76,7 +76,7 @@ spec:
             enabled: true
           externalDatabase:
             type: postgresql
-            host: nextcloud-postgres-rw
+            host: psql-pooler.postgresql.svc.cluster.local
             existingSecret:
               enabled: true
               secretName: nextcloud-postgres-user
