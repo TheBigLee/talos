@@ -25,7 +25,7 @@ spec:
                         secretKeyRef:
                           name: immich-postgres-user
                           key: password
-                    DB_HOSTNAME: immich-postgres-rw
+                    DB_HOSTNAME: psql-pooler.postgresql.svc.cluster.local
                     DB_USERNAME:
                       valueFrom:
                         secretKeyRef:
