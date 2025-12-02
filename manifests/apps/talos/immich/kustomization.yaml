@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - backup.yaml
   - httproute.yaml
+  - pg.yaml
   - pvc.yaml
 generators:
   - secret-generator.yaml
