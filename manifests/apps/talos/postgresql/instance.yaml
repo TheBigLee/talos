@@ -1,0 +1,71 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: shared-psql
+spec:
+  # Using vectorchord image for immich compatibility with vectorchord < 0.6
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:18.0-0.5.3
+  instances: 3
+
+  managed:
+    roles:
+      - name: nextcloud
+        ensure: present
+        login: true
+        connectionLimit: -1
+        inherit: true
+        passwordSecret:
+          name: nextcloud-db-secret
+      - name: paperless
+        ensure: present
+        login: true
+        connectionLimit: -1
+        inherit: true
+        passwordSecret:
+          name: paperless-db-secret
+      - name: immich
+        ensure: present
+        login: true
+        connectionLimit: -1
+        inherit: true
+        passwordSecret:
+          name: immich-db-secret
+
+  storage:
+    size: 10Gi
+    storageClass: hcloud-volumes
+  walStorage:
+    storageClass: hcloud-volumes
+    size: 10Gi
+
+  enableSuperuserAccess: true
+  postgresql:
+    shared_preload_libraries:
+      - "vchord.so"
+    parameters:
+      timeZone: "Europe/Zurich"
+      max_connections: "200"
+      archive_timeout: "60s"
+
+---
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Pooler
+metadata:
+  name: psql-pooler
+spec:
+  cluster:
+    name: shared-psql
+
+  instances: 2
+  type: rw
+  pgbouncer:
+    poolMode: session
+    parameters:
+      max_client_conn: "1000"
+      default_pool_size: "1000"
+      max_db_connections: "0"
+      max_user_connections: "0"
+
