@@ -32,6 +32,12 @@ spec:
         passwordSecret:
           name: immich-db-secret
 
+  plugins:
+    - enable: true
+      name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: cnpg-backup
   storage:
     size: 10Gi
     storageClass: hcloud-volumes
@@ -49,8 +55,6 @@ spec:
       archive_timeout: "60s"
 
 ---
-
----
 apiVersion: postgresql.cnpg.io/v1
 kind: Pooler
 metadata:
@@ -58,7 +62,6 @@ metadata:
 spec:
   cluster:
     name: shared-psql
-
   instances: 2
   type: rw
   pgbouncer:
@@ -69,3 +72,36 @@ spec:
       max_db_connections: "0"
       max_user_connections: "0"
 
+---
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata:
+  name: cnpg-backup
+spec:
+  retentionPolicy: "2d"
+  configuration:
+    destinationPath: s3://bigli-io-talos-postgresql-backup
+    endpointURL: https://s3.eu-central-003.backblazeb2.com
+    s3Credentials:
+      accessKeyId:
+        name: cnpg
+        key: ACCESS_KEY_ID
+      secretAccessKey:
+        name: cnpg
+        key: ACCESS_SECRET_KEY
+    wal:
+      compression: gzip
+---
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: psql-backup
+spec:
+  schedule: "0 0 0 * * *"
+  backupOwnerReference: cluster
+  cluster:
+    name: shared-psql
+  method: plugin
+  pluginConfiguration:
+    name: barman-cloud.cloudnative-pg.io
