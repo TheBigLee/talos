@@ -24,7 +24,7 @@ spec:
             - name: PAPERLESS_DBENGINE
               value: postgresql
             - name: PAPERLESS_DBHOST
-              value: paperless-ngx-postgres-rw
+              value: psql-pooler.postgresql.svc.cluster.local
             - name: PAPERLESS_DBNAME
               value: paperless
             - name: PAPERLESS_DBUSER

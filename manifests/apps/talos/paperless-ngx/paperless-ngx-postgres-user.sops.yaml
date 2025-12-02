@@ -5,7 +5,7 @@ metadata:
     namespace: paperless-ngx
 stringData:
     username: ENC[AES256_GCM,data:yCVOIMR91NmA,iv:Q/yZU/wXyCuO8Kfs7HEM2r1TcV1mWf5mzCB1U7b/QXk=,tag:L1I5utso5QiWyzedrfDY9Q==,type:str]
-    password: ENC[AES256_GCM,data:Yi9gBh58zOoDMwP5N0dx9YmwN5NlAX9RYbSQcQpb8SuLpjFYN3EM9+CJAiI=,iv:810z9Nw72GpW8jhwB8AN1DzRG64BrcdeyDq3kGffryg=,tag:v8Bf3kmUiDktApJVsws8vg==,type:str]
+    password: ENC[AES256_GCM,data:SVcOAmNHK+gr+TvI23+abTXYVhHn1+S1pCX/tIZ8PYQ=,iv:gs1bySWMNlIwwZBdymFhRaBribeA47oP+z8tJ4wD5YA=,tag:RY/Pz3DQKTMZuWCdWWOkUw==,type:str]
 sops:
     age:
         - recipient: age1sqcyumdyut9t3e4557wxawwnvxlqt7wsprtfzgdzw984nlf5jsnqxsyv8z
@@ -35,7 +35,7 @@ sops:
             Wjd6ZUUvNU83WFA1S1RFR0VZZDczc00Ki01v+gGZ97Sw5nujvb6tQypQvXDoV7qX
             0pl4kHzx5zdYAacuOUp9/MAryg04GwiJW3+nDAqoz7nW1v3lltht8Q==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2025-12-01T15:23:47Z"
-    mac: ENC[AES256_GCM,data:UQAMD6KZ+cOPys3XV0Pcq5TZuT0Pg0lh+zjaHK2prIulQUuY2L43ZdmK5FV1f8yWxmUCP/jogEwYeiiKKM0RPUvaNBRwtXOBVCjltAUqdFmN2VCXzCto1mRukweNO6YaRtFIjIYjjE6NMnMvUqm2rhkKsSPtfI2HmS6O9mN6KKg=,iv:Aa8nLzuQL8Bb3lbH4HWhizHk5uNBXKXSi1w0hBfSUAk=,tag:/5Lg9QwbWoKXuredpJxSOQ==,type:str]
+    lastmodified: "2025-12-02T23:00:41Z"
+    mac: ENC[AES256_GCM,data:IU+KPZWepJ/MDIYVJNhcIBtmid09J2Ib5pPkRj5xXqH7OZyUH1zjj/GjCU0eIymBvixad+k/9jfFylHbWDlvbb0UDA4ohuczBb3OSDX6Jn/gmX1kIyIGb7WBKE06u2/3LNZRTXa/670dgMdwr0Nx8ANXJg4Rr1FSu+CBmYfQdhw=,iv:YzWBAiWWy0Si6jomlWRCXaMaSRTE9VLCxNRZUAHRjvs=,tag:5jqywp8PKjS48KVRfG7s4A==,type:str]
     encrypted_regex: (^data|stringData)$
     version: 3.11.0
