@@ -31,6 +31,13 @@ spec:
         inherit: true
         passwordSecret:
           name: immich-db-secret
+      - name: zitadel
+        ensure: present
+        login: true
+        connectionLimit: -1
+        inherit: true
+        passwordSecret:
+          name: zitadel-db-secret
 
   plugins:
     - enabled: true
