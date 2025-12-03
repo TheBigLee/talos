@@ -5,15 +5,19 @@ metadata:
   name: immich-route
 spec:
   parentRefs:
-  - name: traefik-gateway
-    namespace: traefik-system
-    sectionName: websecure
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: traefik-gateway
+      namespace: traefik-system
+      sectionName: websecure
   hostnames:
-  - "immich.bigli.io"
+    - "immich.bigli.io"
   rules:
-  - backendRefs:
-    - name: immich-server
-      port: 2283
+    - backendRefs:
+        - group: ""
+          kind: Service
+          name: immich-server
+          port: 2283
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
@@ -21,13 +25,15 @@ metadata:
   name: immich-route-redirect
 spec:
   parentRefs:
-  - name: traefik-gateway
-    namespace: traefik-system
-    sectionName: web
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: traefik-gateway
+      namespace: traefik-system
+      sectionName: web
   hostnames:
-  - "immich.bigli.io"
+    - "immich.bigli.io"
   rules:
-  - filters:
-    - type: RequestRedirect
-      requestRedirect:
-        scheme: https
+    - filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https

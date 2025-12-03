@@ -5,15 +5,19 @@ metadata:
   namespace: paperless-ngx
 spec:
   parentRefs:
-    - name: traefik-gateway
-      namespace: traefik-system
-      sectionName: websecure 
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: traefik-gateway
+    namespace: traefik-system
+    sectionName: websecure 
   hostnames:
-    - paperless.bigli.io
+  - paperless.bigli.io
   rules:
-    - backendRefs:
-        - name: paperless-ngx
-          port: 8000
+  - backendRefs:
+    - group: ""
+      kind: Service
+      name: paperless-ngx
+      port: 8000
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
@@ -22,13 +26,15 @@ metadata:
   namespace: paperless-ngx
 spec:
   parentRefs:
-    - name: traefik-gateway
-      namespace: traefik-system
-      sectionName: web
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: traefik-gateway
+    namespace: traefik-system
+    sectionName: web
   hostnames:
-    - paperless.bigli.io
+  - paperless.bigli.io
   rules:
-    - filters:
-        - type: RequestRedirect
-          requestRedirect:
-            scheme: https
+  - filters:
+      - type: RequestRedirect
+        requestRedirect:
+          scheme: https

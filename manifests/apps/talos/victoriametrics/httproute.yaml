@@ -5,15 +5,19 @@ metadata:
   name: grafana-route
 spec:
   parentRefs:
-  - name: traefik-gateway
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: traefik-gateway
     namespace: traefik-system
     sectionName: websecure
   hostnames:
   - "grafana.bigli.io"
   rules:
   - backendRefs:
-    - name: vm-grafana
-      port: 80
+      - group: ""
+        kind: Service
+        name: vm-grafana
+        port: 80
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
@@ -21,13 +25,15 @@ metadata:
   name: grafana-route-redirect
 spec:
   parentRefs:
-  - name: traefik-gateway
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: traefik-gateway
     namespace: traefik-system
     sectionName: web
   hostnames:
   - "grafana.bigli.io"
   rules:
   - filters:
-    - type: RequestRedirect
-      requestRedirect:
-        scheme: https
+      - type: RequestRedirect
+        requestRedirect:
+          scheme: https
