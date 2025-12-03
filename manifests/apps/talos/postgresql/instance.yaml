@@ -5,8 +5,20 @@ metadata:
   name: shared-psql
 spec:
   # Using vectorchord image for immich compatibility with vectorchord < 0.6
-  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:18.0-0.5.3
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:17.6-0.5.3
   instances: 3
+
+  bootstrap:
+    recovery:
+      source: shared-psql
+    externalClusters:
+      - name: shared-psql
+        plugin:
+          name: barman-cloud.cloudnative-pg.io
+        parameters:
+          barmanObjectName: psql-backup
+          serverName: shared-psql
+
 
   managed:
     roles:
