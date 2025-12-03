@@ -11,6 +11,13 @@ spec:
   hostnames:
     - idp.bigli.io
   rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /ui/v2/login
+      backendRefs:
+        - name: zitadel-login
+          port: 3000
     - backendRefs:
         - name: zitadel
           port: 8080
