@@ -14,9 +14,11 @@ spec:
     - "nextcloud.bigli.io"
   rules:
   - backendRefs:
-    - name: nextcloud
+    - group: ""
+      kind: Service
+      name: nextcloud
       port: 8080
-      weigth: 1
+      weight: 1
     matches:
     - path:
         type: PathPrefix
