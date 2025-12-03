@@ -7,7 +7,7 @@ spec:
   backend:
     s3:
       bucket: bigli-io-talos-paperless-ngx-backup
-      endpoint: https://s3.eu-central-1.wasabisys.com
+      endpoint: https://s3.eu-central-1.backblazeb2.com
       accessKeyIDSecretRef:
         name: backup-bucket-credentials
         key: access-key-id
