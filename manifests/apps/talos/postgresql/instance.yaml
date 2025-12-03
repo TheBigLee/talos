@@ -8,18 +8,6 @@ spec:
   imageName: ghcr.io/tensorchord/cloudnative-vectorchord:17.6-0.5.3
   instances: 3
 
-  bootstrap:
-    recovery:
-      source: shared-psql
-  externalClusters:
-    - name: shared-psql
-      plugin:
-        name: barman-cloud.cloudnative-pg.io
-        parameters:
-          barmanObjectName: psql-backup
-          serverName: shared-psql
-
-
   managed:
     roles:
       - name: nextcloud
