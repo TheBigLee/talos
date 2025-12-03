@@ -13,9 +13,10 @@ spec:
       targetRevision: 0.26.1
       helm:
         values: |
-          config:
-            data:
-              INHERITED_ANNOTATIONS: k8up.io/backupcommand
+          replicaCount: 2
+    - chart: plugin-barman-cloud
+      repoURL: https://cloudnative-pg.github.io/charts
+      targetRevision: 0.3.1
   destination:
     namespace: cloudnative-pg
     server: https://kubernetes.default.svc
