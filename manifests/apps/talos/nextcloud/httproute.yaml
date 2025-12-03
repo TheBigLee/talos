@@ -13,9 +13,13 @@ spec:
   hostnames:
     - "nextcloud.bigli.io"
   rules:
-    - backendRefs:
-        - name: nextcloud
-          port: 8080
+  - backendRefs:
+      - name: nextcloud
+        port: 8080
+    matches:
+      - path:
+          type: PathPrefix
+          value: /
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
