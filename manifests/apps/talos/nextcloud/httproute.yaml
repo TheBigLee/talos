@@ -5,17 +5,17 @@ metadata:
   name: nextcloud-route
 spec:
   parentRefs:
-  - group: gateway.networking.k8s.io
-    kind: Gateway
-    name: traefik-gateway
-    namespace: traefik-system
-    sectionName: websecure
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: traefik-gateway
+      namespace: traefik-system
+      sectionName: websecure
   hostnames:
-  - "nextcloud.bigli.io"
+    - "nextcloud.bigli.io"
   rules:
-  - backendRefs:
-    - name: nextcloud
-      port: 8080
+    - backendRefs:
+        - name: nextcloud
+          port: 8080
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
@@ -23,15 +23,20 @@ metadata:
   name: nextcloud-route-redirect
 spec:
   parentRefs:
-  - group: gateway.networking.k8s.io
-    kind: Gateway
-    name: traefik-gateway
-    namespace: traefik-system
-    sectionName: web
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: traefik-gateway
+      namespace: traefik-system
+      sectionName: web
   hostnames:
-  - "nextcloud.bigli.io"
+    - "nextcloud.bigli.io"
   rules:
-  - filters:
-    - type: RequestRedirect
-      requestRedirect:
-        scheme: https
+    - filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https
+            statusCode: 302
+      matches:
+        - path:
+            type: PathPrefix
+            value: /

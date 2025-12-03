@@ -35,6 +35,11 @@ spec:
   - paperless.bigli.io
   rules:
   - filters:
-      - type: RequestRedirect
-        requestRedirect:
-          scheme: https
+    - type: RequestRedirect
+      requestRedirect:
+        scheme: https
+        statusCode: 302
+    matches:
+    - path:
+        type: PathPrefix
+        value: /
