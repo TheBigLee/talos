@@ -1,0 +1,55 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: zitadel
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: apps
+  sources:
+    - chart: zitadel
+      repoURL: https://charts.zitadel.com
+      targetRevision: 9.13.0
+      helm:
+        values: |
+          login:
+            enabled: true
+          replicaCount: 2
+          zitadel:
+            masterkeySecretName: zitadel
+            configmapConfig:
+              ExternalSecure: true
+              externalPort: 443
+              ExternalDomain: idp.bigli.io
+              TLS:
+                Enabled: false
+              Database:
+                Postgres:
+                  Host: psql-pooler.postgresql.svc.cluster.local
+                  Port: 5432
+                  Database: zitadel
+                  MaxOpenConns: 10
+                  MaxIdleConns: 5
+                  MaxConnLifetime: 30m
+                  MaxConnIdleTime: 5m
+                  User:
+                    Username: zitadel
+                    SSL:
+                      Mode: require
+                  Admin:
+                    Username: postgres
+                    SSL:
+                      Mode: require
+            configSecretName: zitadel
+            configSecretKey: config
+    - path: manifests/apps/talos/zitadel
+      repoURL: https://github.com/TheBigLee/talos.git
+      targetRevision: HEAD
+  destination:
+    namespace: zitadel
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated: {}
