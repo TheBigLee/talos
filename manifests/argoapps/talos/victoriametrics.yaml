@@ -1,0 +1,128 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: grafana
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: apps
+  sources:
+    - chart: grafana
+      repoURL: https://grafana.github.io/helm-charts
+      targetRevision: 10.3.0
+      helm:
+        values: |
+          grafana:
+            image:
+              # renovate: datasource=docker depName=docker.io/grafana/grafana
+              tag: 12.3.0
+            envFromSecret: grafana-oidc
+            env:
+              GF_AUTH_GENERIC_OAUTH_SCOPES: "openid profile email roles"
+              GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_PATH: "contains(groups[*], 'grafana') && 'Admin'"
+              GF_SERVER_DOMAIN: "grafana.bigli.io"
+              GF_SERVER_ROOT_URL: "https://grafana.bigli.io"
+              GF_AUTH_OAUTH_ALLOW_INSECURE_EMAIL_LOOKUP: 'true'
+            persistence:
+              enabled: true
+              storageClassName: hcloud-volumes
+              accessModes:
+                  - ReadWriteOnce
+          alertmanager:
+            spec:
+              disableNamespaceMatcher: true
+          kubeEtcd:
+            enabled: true
+            service:
+              enabled: true
+              port: 2379
+              targetPort: 2379
+              selector:
+                component: kube-controller-manager # instead of using hardcoded IP endpoints,
+                # this is a trick borrowed from from https://github.com/siderolabs/talos/discussions/7214#discussioncomment-10255876
+                # which only works if/because etcd is deployed on the same nodes where the rest
+                # of the api server (notably kube-controller-manager) are deployed. Adjust if that's
+                # not how your cluster is set up.
+            # vmScrape here is synonymous with serviceMonitor in kube-prometheus
+            vmScrape:
+              spec:
+                jobLabel: jobLabel
+                namespaceSelector:
+                  matchNames: [kube-system]
+                endpoints:
+                  - port: http-metrics
+                    scheme: https
+                    tlsConfig: # caFile, certFile, and keyFile from Neil's post
+                      ca:
+                        secret: # can reference the secret directly instead of needing
+                                # to add it somewhere else
+                          name: etcd-secrets
+                          key: ca.crt
+                      cert:
+                        secret:
+                          name: etcd-secrets
+                          key: server.crt
+                      keySecret:
+                        name: etcd-secrets
+                        key: server.key
+          kubeControllerManager:
+            enabled: true
+            service:
+              enabled: true
+            vmScrape:
+              spec:
+                jobLabel: jobLabel
+                namespaceSelector:
+                  matchNames:
+                    - kube-system
+                endpoints:
+                  - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+                    # bearerTokenSecret:
+                    #   key: ""
+                    port: http-metrics
+                    scheme: https
+                    tlsConfig:
+                      caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+                      serverName: localhost
+                      insecureSkipVerify: true
+
+          kubeScheduler:
+            enabled: true
+            service:
+              enabled: true
+            vmScrape:
+              spec:
+                jobLabel: jobLabel
+                namespaceSelector:
+                  matchNames: [kube-system]
+                endpoints:
+                  - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+                    port: http-metrics
+                    scheme: https
+                    tlsConfig:
+                      caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+                      serverName: 127.0.0.1
+                      insecureSkipVerify: true
+          vmsingle:
+            spec:
+              resources:
+                limits:
+                  memory: 1200Mi
+                requests:
+                  memory: 128Mi
+              retentionPeriod: "30d"
+              removePvcAfterDelete: true
+              extraArgs:
+                maxLabelsPerTimeseries: "100"
+    - path: manifests/apps/talos/victoriametrics
+      repoURL: https://github.com/TheBigLee/talos.git
+      targetRevision: HEAD
+  destination:
+    namespace: victoriametrics
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+    automated: {}
