@@ -1,0 +1,17 @@
+{
+  "openid_connect": {
+    "APPS": [
+      {
+        "provider_id": "zitadel",
+        "name": "Zitadel",
+        "client_id": "349436911862940816",
+        "secret": "KTyEyIgO8wfbIXfx6DqJAwnwEWCtzdSYzQC6a5ltueAJfNuOvfRiSikFjpBKxScq",
+        "settings": {
+          "oauth_pkce_enabled": "True",
+          "server_url": "https://idp.bigli.io"
+        }
+      }
+    ],
+    "OAUTH_PKCE_ENABLED": true
+  }
+}

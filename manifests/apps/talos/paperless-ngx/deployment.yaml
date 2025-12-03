@@ -72,7 +72,7 @@ spec:
                         "secret": "$(OIDC_CLIENT_SECRET)",
                         "settings": {
                           "oauth_pkce_enabled": "True",
-                          "server_url": "https://idp.bigli.io",
+                          "server_url": "https://idp.bigli.io"
                         }
                       }
                     ]
