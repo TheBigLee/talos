@@ -14,13 +14,13 @@ spec:
       helm:
         values: |
           login:
-            enabled: true
+            enabled: false
           replicaCount: 2
           zitadel:
             masterkeySecretName: zitadel
             configmapConfig:
               ExternalSecure: true
-              externalPort: 443
+              ExternalPort: 443
               ExternalDomain: idp.bigli.io
               TLS:
                 Enabled: false
