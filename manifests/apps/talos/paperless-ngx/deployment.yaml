@@ -63,6 +63,7 @@ spec:
               value: |
                 {
                   "openid_connect": {
+                    "OAUTH_PKCE_ENABLED": true,
                     "APPS": [
                       {
                         "provider_id": "zitadel",
@@ -70,12 +71,11 @@ spec:
                         "client_id": "$(OIDC_CLIENT_ID)",
                         "secret": "$(OIDC_CLIENT_SECRET)",
                         "settings": {
-                          "oauth_pkce_enabled": True
-                          "server_url": "https://idp.bigli.io"
+                          "oauth_pkce_enabled": "True",
+                          "server_url": "https://idp.bigli.io",
                         }
                       }
-                    ],
-                    "OAUTH_PKCE_ENABLED": true
+                    ]
                   }
                 }
             - name: OIDC_CLIENT_ID
