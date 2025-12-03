@@ -33,7 +33,7 @@ spec:
           name: immich-db-secret
 
   plugins:
-    - enable: true
+    - enabled: true
       name: barman-cloud.cloudnative-pg.io
       isWALArchiver: true
       parameters:
