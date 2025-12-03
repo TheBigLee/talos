@@ -19,7 +19,7 @@ spec:
               tag: 12.3.0
             envFromSecret: grafana-oidc
             env:
-              GF_AUTH_GENERIC_OAUTH_SCOPES: "openid profile email roles"
+              GF_AUTH_GENERIC_OAUTH_SCOPES: "openid profile email"
               GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_PATH: "contains(groups[*], 'grafana') && 'Admin'"
               GF_SERVER_DOMAIN: "grafana.bigli.io"
               GF_SERVER_ROOT_URL: "https://grafana.bigli.io"
