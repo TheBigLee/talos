@@ -60,34 +60,10 @@ spec:
             - name: PAPERLESS_APPS
               value: allauth.socialaccount.providers.openid_connect
             - name: PAPERLESS_SOCIALACCOUNT_PROVIDERS
-              value: |
-                {
-                  "openid_connect": {
-                    "APPS": [
-                      {
-                        "provider_id": "zitadel",
-                        "name": "Zitadel",
-                        "client_id": "$(OIDC_CLIENT_ID)",
-                        "secret": "$(OIDC_CLIENT_SECRET)",
-                        "settings": {
-                          "oauth_pkce_enabled": True
-                          "server_url": "https://idp.bigli.io"
-                        }
-                      }
-                    ],
-                    "OAUTH_PKCE_ENABLED": true
-                  }
-                }
-            - name: OIDC_CLIENT_ID
               valueFrom:
                 secretKeyRef:
                   name: paperless-ngx-oidc
-                  key: client-id
-            - name: OIDC_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: paperless-ngx-oidc
-                  key: client-secret
+                  key:  socialaccount_providers
           volumeMounts:
             - name: data
               mountPath: /usr/src/paperless/data
