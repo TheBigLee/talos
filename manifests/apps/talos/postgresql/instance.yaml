@@ -11,10 +11,10 @@ spec:
   bootstrap:
     recovery:
       source: shared-psql
-    externalClusters:
-      - name: shared-psql
-        plugin:
-          name: barman-cloud.cloudnative-pg.io
+  externalClusters:
+    - name: shared-psql
+      plugin:
+        name: barman-cloud.cloudnative-pg.io
         parameters:
           barmanObjectName: psql-backup
           serverName: shared-psql
