@@ -1,0 +1,7 @@
+[[allowlists]]
+description = "global allow list"
+paths = [
+  '''tofu/terraform\.tfstate\.toml''',
+  '''tofu/terraform\.tfstate\.backup\.toml''',
+]
+
