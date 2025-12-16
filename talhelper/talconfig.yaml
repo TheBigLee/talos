@@ -53,6 +53,13 @@ controlPlane:
     # Machine configuration
     - |-
       machine:
+        features:
+          kubernetesTalosAPIAccess:
+            allowedKubernetesNamespaces:
+              - system-upgrade
+            allowedRoles:
+              - os:admin
+            enabled: true
         kubelet:
           nodeIP:
             validSubnets:
