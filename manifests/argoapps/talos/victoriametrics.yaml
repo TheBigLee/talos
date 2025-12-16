@@ -17,6 +17,8 @@ spec:
             image:
               # renovate: datasource=docker depName=docker.io/grafana/grafana
               tag: 12.3.0
+            deploymentStrategy:
+              type: Recreate
             envFromSecret: grafana-oidc
             env:
               GF_AUTH_GENERIC_OAUTH_SCOPES: "openid profile email"
