@@ -94,6 +94,7 @@ spec:
     jsonPointers:
     - /data/ca.crt
     - /data/ca.key
+    - /data/tls.crt
     - /data/tls.key
   - group: ""
     kind: Secret
@@ -102,4 +103,5 @@ spec:
     jsonPointers:
     - /data/ca.crt
     - /data/ca.key
+    - /data/tls.crt
     - /data/tls.key
