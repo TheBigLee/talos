@@ -1,0 +1,21 @@
+apiVersion: tuppr.home-operations.com/v1alpha1
+kind: TalosUpgrade
+metadata:
+  name: cluster
+spec:
+  talos:
+    # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
+    version: v1.11.6 # Required - target Talos version
+
+  policy:
+    debug: true # Optional, verbose logging
+    force: false # Optional, skip etcd health checks
+    rebootMode: default # Optional, default|powercycle
+    placement: soft # Optional, hard|soft
+
+  # Custom health checks (optional)
+  healthChecks:
+    - apiVersion: v1
+      kind: Node
+      expr: status.conditions.exists(c, c.type == "Ready" && c.status == "True")
+
