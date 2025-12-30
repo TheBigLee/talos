@@ -10,7 +10,7 @@ spec:
   sources:
     - path: "."
       repoURL: oci://ghcr.io/home-operations/charts/tuppr
-      targetRevision: 0.0.50
+      targetRevision: 0.0.51
     - path: manifests/apps/talos/tuppr
       repoURL: https://github.com/TheBigLee/talos.git
       targetRevision: HEAD
