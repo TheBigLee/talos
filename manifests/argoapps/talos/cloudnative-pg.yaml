@@ -16,7 +16,7 @@ spec:
           replicaCount: 2
     - chart: plugin-barman-cloud
       repoURL: https://cloudnative-pg.github.io/charts
-      targetRevision: 0.3.1
+      targetRevision: 0.4.0
   destination:
     namespace: cloudnative-pg
     server: https://kubernetes.default.svc
