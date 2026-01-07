@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: homeraspi-display
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: apps
+  sources:
+    - path: manifests/apps/talos/homeraspi-display
+      repoURL: https://github.com/TheBigLee/talos.git
+      targetRevision: HEAD
+  destination:
+    namespace: homeraspi-display
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true

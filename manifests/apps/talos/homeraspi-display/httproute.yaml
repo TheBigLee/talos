@@ -1,0 +1,43 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: homeraspi-display-route
+spec:
+  parentRefs:
+  - name: traefik-gateway
+    namespace: traefik-system
+    sectionName: websecure
+  hostnames:
+  - "home-display.bigli.io"
+  rules:
+  - backendRefs:
+    - name: homeraspi-display
+      port: 80
+      weight: 1
+    matches:
+    - path:
+        type: PathPrefix
+        value: /
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: homeraspi-display-route-redirect
+spec:
+  parentRefs:
+  - name: traefik-gateway
+    namespace: traefik-system
+    sectionName: web
+  hostnames:
+  - "home-display.bigli.io"
+  rules:
+  - filters:
+    - type: RequestRedirect
+      requestRedirect:
+        scheme: https
+        statusCode: 302
+    matches:
+    - path:
+        type: PathPrefix
+        value: /
