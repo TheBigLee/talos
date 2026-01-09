@@ -29,9 +29,9 @@ spec:
               name: http
           env:
             - name: GRAFANA_URL_1
-              value: "https://graphs.bigli.io/d-solo/bim785n/temperatur?orgId=1&timezone=browser&panelId=panel-1&__feature.dashboardSceneSolo=true"
+              value: "https://graphs.bigli.io/d-solo/bim785n/temperatur?orgId=1&refresh=1m&timezone=browser&panelId=panel-1&__feature.dashboardSceneSolo=true"
             - name: GRAFANA_URL_2
-              value: "https://graphs.bigli.io/d-solo/bim785n/temperatur?orgId=1&timezone=browser&panelId=panel-2&__feature.dashboardSceneSolo=true"
+              value: "https://graphs.bigli.io/d-solo/bim785n/temperatur?orgId=1&refresh=1m&timezone=browser&panelId=panel-2&__feature.dashboardSceneSolo=true"
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: false
