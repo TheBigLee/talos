@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: home-assistant
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: apps-raspi5
+  sources:
+    - path: manifests/apps/raspi5/home-assistant
+      repoURL: https://github.com/TheBigLee/talos.git
+      targetRevision: HEAD
+  destination:
+    namespace: home-assistant
+    name: raspi5
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated: {}
