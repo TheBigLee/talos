@@ -6,13 +6,14 @@ metadata:
 spec:
   project: system
   source:
-    path: apps/raspi5/_system/cert-manager
+    path: manifests/apps/raspi5/_system/cert-manager
     repoURL: https://github.com/TheBigLee/talos.git
     targetRevision: HEAD
   destination:
     namespace: cert-manager
     name: raspi5
   syncPolicy:
-    automated: {}
+    automated:
+      selfHeal: true
     syncOptions:
       - CreateNamespace=true

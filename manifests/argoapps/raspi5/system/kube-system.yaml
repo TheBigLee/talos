@@ -6,7 +6,7 @@ metadata:
 spec:
   project: system
   source:
-    path: 'apps/raspi5/_system/kube-system'
+    path: 'manifests/apps/raspi5/_system/kube-system'
     repoURL: https://github.com/TheBigLee/talos.git
     targetRevision: HEAD
   destination:
