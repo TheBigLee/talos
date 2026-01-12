@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: media-manager
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: apps-raspi5
+  sources:
+    - path: apps/raspi5/media-manager
+      repoURL: https://github.com/TheBigLee/gitops-k3s.git
+      targetRevision: HEAD
+  destination:
+    namespace: media-manager
+    name: raspi5
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated: {}
