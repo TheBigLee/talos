@@ -49,7 +49,7 @@ data:
       base_domain: vpn.bigli.io
       extra_records:
         - name: "sabnzbd.bigli.io"
-          type: "CNMAE"
+          type: "CNAME"
           value: "raspi5.vpn.bigli.io"
         - name: "sonarr.bigli.io"
           type: "CNAME"
