@@ -47,17 +47,3 @@ data:
           - 2620:fe::fe
           - 2620:fe::9
       base_domain: vpn.bigli.io
-      extra_records:
-        - name: "sabnzbd.bigli.io"
-          type: "A"
-          value: "100.64.0.3"
-        - name: "sonarr.bigli.io"
-          type: "A"
-          value: "100.64.0.3"
-        - name: "radarr.bigli.io"
-          type: "A"
-          value: "100.64.0.3"
-        - name: home-assistant.bigli.io"
-          type: "A"
-          value: "100.64.0.3"
-
