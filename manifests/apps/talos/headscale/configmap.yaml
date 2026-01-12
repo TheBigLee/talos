@@ -57,4 +57,7 @@ data:
         - name: "radarr.bigli.io"
           type: "A"
           value: "100.64.0.3"
+        - name: home-assistant.vpn.bigli.io"
+          type: "A"
+          value: "100.64.0.3"
 
