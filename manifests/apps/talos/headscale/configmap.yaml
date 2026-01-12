@@ -49,15 +49,15 @@ data:
       base_domain: vpn.bigli.io
       extra_records:
         - name: "sabnzbd.bigli.io"
-          type: "CNAME"
-          value: "raspi5.vpn.bigli.io"
+          type: "A"
+          value: "100.64.0.3"
         - name: "sonarr.bigli.io"
-          type: "CNAME"
-          value: "raspi5.vpn.bigli.io"
+          type: "A"
+          value: "100.64.0.3"
         - name: "radarr.bigli.io"
-          type: "CNAME"
-          value: "raspi5.vpn.bigli.io"
+          type: "A"
+          value: "100.64.0.3"
         - name: home-assistant.bigli.io"
-          type: "CNAME"
-          value: "raspi5.vpn.bigli.io"
+          type: "A"
+          value: "100.64.0.3"
 
