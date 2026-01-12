@@ -73,6 +73,9 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
+            - name: dbus
+              mountPath: /run/dbus
+              readOnly: true
           livenessProbe:
             httpGet:
               path: /
@@ -103,6 +106,10 @@ spec:
         - name: config
           persistentVolumeClaim:
             claimName: home-assistant-config
+        - name: dbus
+          hostPath:
+            path: /run/dbus
+            type: Directory
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
