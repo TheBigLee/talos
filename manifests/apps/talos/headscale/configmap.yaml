@@ -47,3 +47,7 @@ data:
           - 2620:fe::fe
           - 2620:fe::9
       base_domain: vpn.bigli.io
+      extra_records:
+        - name: "home-assistant.bigli.io"
+          type: "A"
+          value: "100.64.0.6"
