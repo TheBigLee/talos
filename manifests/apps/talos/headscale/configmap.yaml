@@ -50,4 +50,4 @@ data:
       extra_records:
         - name: "home-assistant.bigli.io"
           type: "A"
-          value: "100.64.0.6"
+          value: "100.64.0.7"
