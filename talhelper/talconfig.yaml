@@ -3,7 +3,7 @@ clusterName: talos-cluster
 # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
 talosVersion: v1.11.6
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
-kubernetesVersion: v1.34.3
+kubernetesVersion: v1.35.1
 
 endpoint: https://talos.bigli.io:6443
 
