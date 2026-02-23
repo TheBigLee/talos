@@ -1,179 +1,183 @@
-  {
-    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-    "labels": [
-      "maintenance"
-    ],
-    "dependencyDashboard": true,
-    "enabledManagers": [
-      "kubernetes",
-      "argocd",
-      "regex"
-    ],
-    "kubernetes": {
-      "fileMatch": [
-        "^manifests/apps/.*\\.yaml$"
-      ]
-    },
-    "argocd": {
-      "fileMatch": [
-        "manifests/argoapps/.+\\.yaml$"
-      ]
-    },
-    "major": {
-      "enabled": true
-    },
-    "recreateWhen": "always",
-    "rebaseWhen": "conflicted",
-    "prHourlyLimit": 0,
-    "branchConcurrentLimit": 0,
-    "packageRules": [
-      {
-        "matchUpdateTypes": [
-          "patch",
-          "digest"
-        ],
-        "matchCurrentVersion": "!/^0/",
-        "requiredStatusChecks": null,
-        "automerge": true
-      },
-      {
-        "datasources": [
-          "docker",
-          "helm"
-        ],
-        "major": {
-          "enabled": true
-        }
-      },
-      {
-        "paths": [
-          "manifests/argoapps/talos/system/k8up.yaml",
-          "manifests/argoapps/talos/nextcloud.yaml"
-        ],
-        "automerge": true,
-        "requiredStatusChecks": null
-      },
-      {
-        "matchPackageNames": [
-          "nextcloud"
-        ],
-        "matchPaths": [
-          "manifests/argoapps/talos/nextcloud.yaml"
-        ],
-        "matchManagers": [
-          "regex"
-        ],
-        "matchDatasources": [
-          "docker"
-        ],
-        "major": {
-          "enabled": true
-        },
-        "matchUpdateTypes": [
-          "minor",
-          "patch",
-          "pin",
-          "digest"
-        ],
-        "automerge": true
-      },
-      {
-        "matchPackageNames": [
-          "nextcloud"
-        ],
-        "matchPaths": [
-          "manifests/argoapps/talos/nextcloud.yaml"
-        ],
-        "matchManagers": [
-          "regex"
-        ],
-        "matchDatasources": [
-          "docker"
-        ],
-        "matchUpdateTypes": [
-          "major"
-        ],
-        "automerge": false
-      },
-      {
-        "matchPackageNames": [
-          "immich-app/immich"
-        ],
-        "matchPaths": [
-          "manifests/argoapps/talos/immich.yaml"
-        ],
-        "matchManagers": [
-          "regex"
-        ],
-        "matchDatasources": [
-          "github-releases"
-        ],
-        "matchUpdateTypes": [
-          "major"
-        ],
-        "automerge": false,
-        "description": "Prevent automerge of major updates for immich"
-      },
-      {
-        "matchPackageNames": [
-          "immich-app/immich"
-        ],
-        "matchPaths": [
-          "manifests/argoapps/talos/immich.yaml"
-        ],
-        "matchManagers": [
-          "regex"
-        ],
-        "matchDatasources": [
-          "github-releases"
-        ],
-        "matchUpdateTypes": [
-          "minor",
-          "patch"
-        ],
-        "automerge": true,
-        "requiredStatusChecks": null,
-        "description": "Automerge non-major immich updates"
-      }
-    ],
-    "customManagers": [
-      {
-        "fileMatch": [
-          "talhelper/talconfig\\.yaml"
-        ],
-        "matchStrings": [
-          "# renovate: datasource=(?<datasource>[a-z-]+) depName=(?<depName>[^\\n]+)\\n\\w+Version: (?<currentValue>v[\\d\\.]+)"
-        ]
-      },
-      {
-        "fileMatch": [
-          "manifests/apps/talos/tuppr/.+\\.yaml"
-        ],
-        "matchStrings": [
-          "# renovate: datasource=(?<datasource>[a-z-]+) depName=(?<depName>[^\\n]+)\\n\\s+version: (?<currentValue>v[\\d\\.]+)"
-        ]
-      },
-      {
-        "fileMatch": [
-          "manifests/argoapps/talos/nextcloud.yaml"
-        ],
-        "matchStrings": [
-          "tag:\\s*\"?(?<currentValue>[\\d\\.]+-fpm)\"?"
-        ],
-        "depNameTemplate": "nextcloud",
-        "datasourceTemplate": "docker",
-        "packageNameTemplate": "nextcloud"
-      },
-      {
-        "fileMatch": [
-          "manifests/argoapps/talos/immich.yaml"
-        ],
-        "matchStrings": [
-          "tag:\\s*\"?(?<currentValue>v\\d+\\.\\d+\\.\\d+)\"?"
-        ],
-        "depNameTemplate": "immich-app/immich",
-        "datasourceTemplate": "github-releases",
-        "packageNameTemplate": "immich-app/immich"
-      }
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "labels": [
+    "maintenance"
+  ],
+  "dependencyDashboard": true,
+  "enabledManagers": [
+    "kubernetes",
+    "argocd",
+    "custom.regex"
+  ],
+  "kubernetes": {
+    "managerFilePatterns": [
+      "/^manifests/apps/.*\\.yaml$/"
     ]
-  }
+  },
+  "argocd": {
+    "managerFilePatterns": [
+      "/manifests/argoapps/.+\\.yaml$/"
+    ]
+  },
+  "major": {
+    "enabled": true
+  },
+  "recreateWhen": "always",
+  "rebaseWhen": "conflicted",
+  "prHourlyLimit": 0,
+  "branchConcurrentLimit": 0,
+  "packageRules": [
+    {
+      "matchUpdateTypes": [
+        "patch",
+        "digest"
+      ],
+      "matchCurrentVersion": "!/^0/",
+      "ignoreTests": true,
+      "automerge": true
+    },
+    {
+      "matchDatasources": [
+        "docker",
+        "helm"
+      ],
+      "major": {
+        "enabled": true
+      }
+    },
+    {
+      "matchFileNames": [
+        "manifests/argoapps/talos/system/k8up.yaml",
+        "manifests/argoapps/talos/nextcloud.yaml"
+      ],
+      "automerge": true,
+      "ignoreTests": true
+    },
+    {
+      "matchPackageNames": [
+        "nextcloud"
+      ],
+      "matchFileNames": [
+        "manifests/argoapps/talos/nextcloud.yaml"
+      ],
+      "matchManagers": [
+        "custom.regex"
+      ],
+      "matchDatasources": [
+        "docker"
+      ],
+      "major": {
+        "enabled": true
+      },
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ],
+      "automerge": true
+    },
+    {
+      "matchPackageNames": [
+        "nextcloud"
+      ],
+      "matchFileNames": [
+        "manifests/argoapps/talos/nextcloud.yaml"
+      ],
+      "matchManagers": [
+        "custom.regex"
+      ],
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "automerge": false
+    },
+    {
+      "matchPackageNames": [
+        "immich-app/immich"
+      ],
+      "matchFileNames": [
+        "manifests/argoapps/talos/immich.yaml"
+      ],
+      "matchManagers": [
+        "custom.regex"
+      ],
+      "matchDatasources": [
+        "github-releases"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "automerge": false,
+      "description": "Prevent automerge of major updates for immich"
+    },
+    {
+      "matchPackageNames": [
+        "immich-app/immich"
+      ],
+      "matchFileNames": [
+        "manifests/argoapps/talos/immich.yaml"
+      ],
+      "matchManagers": [
+        "custom.regex"
+      ],
+      "matchDatasources": [
+        "github-releases"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "automerge": true,
+      "ignoreTests": true,
+      "description": "Automerge non-major immich updates"
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/talhelper/talconfig\\.yaml/"
+      ],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>[a-z-]+) depName=(?<depName>[^\\n]+)\\n\\w+Version: (?<currentValue>v[\\d\\.]+)"
+      ]
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/manifests/apps/talos/tuppr/.+\\.yaml/"
+      ],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>[a-z-]+) depName=(?<depName>[^\\n]+)\\n\\s+version: (?<currentValue>v[\\d\\.]+)"
+      ]
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/manifests/argoapps/talos/nextcloud.yaml/"
+      ],
+      "matchStrings": [
+        "tag:\\s*\"?(?<currentValue>[\\d\\.]+-fpm)\"?"
+      ],
+      "depNameTemplate": "nextcloud",
+      "datasourceTemplate": "docker",
+      "packageNameTemplate": "nextcloud"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/manifests/argoapps/talos/immich.yaml/"
+      ],
+      "matchStrings": [
+        "tag:\\s*\"?(?<currentValue>v\\d+\\.\\d+\\.\\d+)\"?"
+      ],
+      "depNameTemplate": "immich-app/immich",
+      "datasourceTemplate": "github-releases",
+      "packageNameTemplate": "immich-app/immich"
+    }
+  ]
+}
