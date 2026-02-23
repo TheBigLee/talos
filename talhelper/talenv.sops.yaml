@@ -5,7 +5,7 @@ TALOS_LB_IP: ENC[AES256_GCM,data:Gteq9ZXb+fR7UM8=,iv:83jDPCsNBDXc7mE2YKh8/j8Q+i2
 TALOS_CP1_SERVER_ID: ENC[AES256_GCM,data:/8tnBtqPcIXt,iv:WqF745emkV0sIUMhuan+jVZSxSTx2sX1yUjvPJYJ8Ak=,tag:GG50a0TWVywEFAVKaQYOtg==,type:str]
 TALOS_CP2_SERVER_ID: ENC[AES256_GCM,data:shZ5p9jFq1yo,iv:ocX/bhUoUQnsHZ3NbiFvJTZW1Xbvabe4MvbpmF7KtTA=,tag:U361CuznFbxf4GfG39WNCw==,type:str]
 TALOS_CP3_SERVER_ID: ENC[AES256_GCM,data:P7aLoh51iLEg,iv:QOGo/3oB+2z20bpdA80/SsCli6xAwRrPN3pyDW9uHzo=,tag:10kRfOjcB/Gf0H+hQiwCOw==,type:str]
-TAILSCALE_AUTH_KEY: ENC[AES256_GCM,data:GKgf3tlLUZNVMTr4Cnp2z9S9Sw9Pfp1glI3NC9J/+gpXTaRgTXv7vr7iArLF8bm1,iv:yvk2ZQTfTwjyXvf6XXkH3QSF3gEVKAWC/bfUKzyIE04=,tag:Lheio8aDmoSeVU7DzQcXhQ==,type:str]
+TAILSCALE_AUTH_KEY: ENC[AES256_GCM,data:QUWtlARncemrIaI5goNwpet+7dSFmNW/qAdAY/fM9XL0OvN2kEddYK67YLFTzIf3,iv:/Yh0Stf2B36O5dYg28iVbOgEggizFhQdrEyqrPgnS3Q=,tag:DE57rBTnleVVq0COlOcCeg==,type:str]
 DISK_ENCRYPTION_PASSPHRASE: ENC[AES256_GCM,data:8e03p3ebNsk5+0LlfJTDOfyib3ixQYDhjM/fN5BA0T8=,iv:lxQWteR8TjjiE7tti6Hn3HxNIV/fyZG4bYUmOWYW1kE=,tag:lCmSx53wDZH2OhQxmcJ+sA==,type:str]
 sops:
     age:
@@ -27,7 +27,7 @@ sops:
             aWJDS1BjWnorZlZISGRXd05TYlhrUlEKaAFUupYwBNlMxhJm9GToXndUvR1YjOAg
             jTNTqQv98ybdPQ9Vo53QUqYQSS94YGuqoJ8xVHM/NKpb7TZK2opPrA==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2026-02-23T16:09:36Z"
-    mac: ENC[AES256_GCM,data:oalFHMj9RIbUfxSt8t9XydHEjfTzmjGOuC0BhPIB61jUjvLmmkasPPt/chXyBmJwfo02SHH+tqEi71B+cWxnum9g9IimMIkkFH8UtzFwC9HT0JJBD9BznhIkpa+vMlzo98QipW5NHSkMcYLewmBqlGZFqae1Hytf8lFWwx/OYaA=,iv:qfRQzwDmQxvOC59lDCLXe3Ph8djVXkis7RxO1xqT7Ps=,tag:QcUVKy9L7w99wYby5dqndQ==,type:str]
+    lastmodified: "2026-02-23T20:46:31Z"
+    mac: ENC[AES256_GCM,data:iZShIwtTKKv1oQBxakbSf0PaipV/BkapPGVpNqzZcVOrBAQtP/u8h0ratoQHW9Cpht1FNgDgENab+z0dwBn55LXUPo+iKDms/8rySgfzwF7iP72mlxBq3tA4SBbZYVERJwnthhpQoWERYRCZOq4ZtBnpZWM2eD5uly0LZtBb7Os=,iv:RmKkVMZtG8lF42m2tHnsvphoQsYE+sc2zYMP8sRg/no=,tag:39MQ355y3azB2zheoCGh3w==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.11.0

@@ -16,9 +16,9 @@ cniConfig:
 
 # IPv4 pod and service networks
 clusterPodNets:
-  - 10.244.0.0/16           # IPv4
+  - 10.244.0.0/16 # IPv4
 clusterSvcNets:
-  - 10.96.0.0/12            # IPv4
+  - 10.96.0.0/12 # IPv4
 
 additionalMachineCertSans:
   - 91.98.1.136
@@ -49,7 +49,7 @@ controlPlane:
         etcd:
           advertisedSubnets:
             - 10.0.1.0/24
-    
+
     # Machine configuration
     - |-
       machine:
@@ -64,6 +64,21 @@ controlPlane:
           nodeIP:
             validSubnets:
               - 10.0.1.0/24
+
+  volumes:
+    - name: STATE
+      encryption:
+        provider: luks2
+        keys:
+          - slot: 1
+            nodeID: {}
+    - name: EPHEMERAL
+      encryption:
+        provider: luks2
+        keys:
+          - slot: 1
+            static:
+              passphrase: ${DISK_ENCRYPTION_PASSPHRASE}
   schematic:
     customization:
       systemExtensions:
