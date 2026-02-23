@@ -139,6 +139,22 @@
     "customManagers": [
       {
         "fileMatch": [
+          "talhelper/talconfig\\.yaml"
+        ],
+        "matchStrings": [
+          "# renovate: datasource=(?<datasource>[a-z-]+) depName=(?<depName>[^\\n]+)\\n\\w+Version: (?<currentValue>v[\\d\\.]+)"
+        ]
+      },
+      {
+        "fileMatch": [
+          "manifests/apps/talos/tuppr/.+\\.yaml"
+        ],
+        "matchStrings": [
+          "# renovate: datasource=(?<datasource>[a-z-]+) depName=(?<depName>[^\\n]+)\\n\\s+version: (?<currentValue>v[\\d\\.]+)"
+        ]
+      },
+      {
+        "fileMatch": [
           "manifests/argoapps/talos/nextcloud.yaml"
         ],
         "matchStrings": [
