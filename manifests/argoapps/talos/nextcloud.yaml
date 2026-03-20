@@ -61,6 +61,8 @@ spec:
             extraVolumeMounts:
               - name: cron-config
                 mountPath: /var/spool/cron/crontabs/
+            podSecurityContext:
+              fsGroupChangePolicy: OnRootMismatch
           resources:
             limits:
               memory: 3Gi
