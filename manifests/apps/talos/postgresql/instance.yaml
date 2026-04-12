@@ -50,7 +50,7 @@ spec:
     storageClass: hcloud-volumes
   walStorage:
     storageClass: hcloud-volumes
-    size: 20Gi
+    size: 30Gi
 
   enableSuperuserAccess: true
   postgresql:
