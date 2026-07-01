@@ -10,7 +10,7 @@ spec:
   sources:
     - path: "."
       repoURL: oci://ghcr.io/victoriametrics/helm-charts/victoria-metrics-k8s-stack
-      targetRevision: 0.79.1
+      targetRevision: 0.85.9
       helm:
         values: |
           grafana:
