@@ -17,7 +17,7 @@ spec:
         - command:
             - headscale
             - serve
-          image: ghcr.io/juanfont/headscale:v0.28.0
+          image: ghcr.io/juanfont/headscale:v0.29.2
           imagePullPolicy: IfNotPresent
           env:
             - name: GIN_MODE
