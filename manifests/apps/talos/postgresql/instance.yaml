@@ -78,6 +78,7 @@ spec:
   type: rw
   template:
     spec:
+      containers: []
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
