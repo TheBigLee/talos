@@ -8,6 +8,11 @@ spec:
   imageName: ghcr.io/tensorchord/cloudnative-vectorchord:17.6-0.5.3
   instances: 3
 
+  affinity:
+    enablePodAntiAffinity: true
+    topologyKey: kubernetes.io/hostname
+    podAntiAffinityType: required
+
   managed:
     roles:
       - name: nextcloud
@@ -71,6 +76,15 @@ spec:
     name: shared-psql
   instances: 2
   type: rw
+  template:
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  cnpg.io/poolerName: psql-pooler
+              topologyKey: kubernetes.io/hostname
   pgbouncer:
     poolMode: session
     parameters:
