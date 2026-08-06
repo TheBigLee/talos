@@ -94,7 +94,7 @@ spec:
 
           persistence:
             enabled: true
-            size: 20Gi
+            size: 100Gi
           startupProbe:
             enabled: true
           metrics:
