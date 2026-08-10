@@ -55,6 +55,11 @@ spec:
                 secretKeyRef:
                   name: paperless-ngx-admin
                   key: password
+            - name: PAPERLESS_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: paperless-ngx-secret-key
+                  key: secret-key
             - name: PAPERLESS_FILENAME_FORMAT
               value: "{{ owner_username }}/{{ created_year }}/{{ correspondent }}/{{ title }}"
             - name: PAPERLESS_APPS
