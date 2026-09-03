@@ -10,6 +10,12 @@ creation_rules:
       - *bigli_Thor
       - *bigli_Freya
       - *talos_cluster
+  - path_regex: ^topf/topf\.yaml$
+    encrypted_regex: ^data$
+    key_groups:
+    - age:
+      - *bigli_Thor
+      - *bigli_Freya
   - path_regex: .*.(\.sops\.yaml)$
     key_groups:
     - age:

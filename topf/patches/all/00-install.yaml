@@ -1,0 +1,8 @@
+# talhelper set these from its top-level `nodes[].installDisk` and
+# `nodeLabels` fields; topf keeps topf.yaml thin, so they live here.
+machine:
+  install:
+    disk: /dev/sda
+  nodeLabels:
+    topology.kubernetes.io/region: eu-central
+    topology.kubernetes.io/zone: nbg1

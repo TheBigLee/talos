@@ -1,0 +1,62 @@
+# was talhelper's top-level domain / clusterPodNets / clusterSvcNets /
+# cniConfig / allowSchedulingOnControlPlanes / additionalApiServerCertSans,
+# plus its inline controlPlane.patches cluster block.
+cluster:
+  allowSchedulingOnControlPlanes: true
+  network:
+    dnsDomain: cluster.local
+    podSubnets:
+      - 10.244.0.0/16
+    serviceSubnets:
+      - 10.96.0.0/12
+    # Cilium replaces both the CNI and kube-proxy.
+    cni:
+      name: none
+  proxy:
+    disabled: true
+  controllerManager:
+    extraArgs:
+      bind-address: 0.0.0.0
+  scheduler:
+    extraArgs:
+      bind-address: 0.0.0.0
+    # Spread every workload across nodes by default. Without this the
+    # scheduler only balances on requests with no anti-affinity pressure,
+    # which let talos-cp2 reach 99% of allocatable while cp3 sat at 62%.
+    #
+    # ScheduleAnyway on purpose: this is a soft preference. The cluster runs
+    # at ~77% requested, so a hard DoNotSchedule would strand pods as Pending
+    # rather than merely place them badly.
+    config:
+      apiVersion: kubescheduler.config.k8s.io/v1
+      kind: KubeSchedulerConfiguration
+      profiles:
+        - schedulerName: default-scheduler
+          pluginConfig:
+            - name: PodTopologySpread
+              args:
+                defaultingType: List
+                defaultConstraints:
+                  - maxSkew: 1
+                    topologyKey: kubernetes.io/hostname
+                    whenUnsatisfiable: ScheduleAnyway
+  etcd:
+    advertisedSubnets:
+      - 10.0.1.0/24
+  apiServer:
+    # was talhelper `additionalApiServerCertSans`
+    certSANs:
+      - 91.98.1.136
+      - 2a01:4f8:1c1f:6001::1
+      - talos.bigli.io
+    # The apiserver runs at ~1.5-1.7GiB steady with peaks to 2.8GiB, against
+    # a Talos default request of 512Mi, so the scheduler believed every node
+    # had ~1.2GiB more room than it did. GOMEMLIMIT is a soft ceiling that
+    # makes the Go GC reclaim rather than hold the peak. No memory limit on
+    # purpose: a hard limit trades a slow control plane for a dead one.
+    resources:
+      requests:
+        cpu: 200m
+        memory: 1500Mi
+    env:
+      GOMEMLIMIT: 1750MiB
