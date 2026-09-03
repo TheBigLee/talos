@@ -169,4 +169,10 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
-    automated: {}
+    automated:
+      # Chart 0.90.2 generates dashboards and rules from a sync Job instead of
+      # rendering them statically as 0.79.1 did. Without prune, the 61 objects
+      # the old chart left behind are tracked, never part of the desired state,
+      # and never removed - so the app is permanently OutOfSync and resyncs
+      # every ~3 minutes forever.
+      prune: true
