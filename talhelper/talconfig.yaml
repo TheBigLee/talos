@@ -49,6 +49,23 @@ controlPlane:
         etcd:
           advertisedSubnets:
             - 10.0.1.0/24
+        apiServer:
+          # The apiserver runs at ~1.5-1.7GiB steady with peaks to 2.8GiB,
+          # against a Talos default request of 512Mi. The scheduler therefore
+          # believed every control plane node had ~1.2GiB more room than it
+          # did, and packed talos-cp2 to 93% of allocatable while the node was
+          # really out of memory. The request is the number that fixes that.
+          #
+          # GOMEMLIMIT is a soft ceiling: the Go GC gets aggressive as the heap
+          # approaches it instead of letting it grow to the peak and keeping
+          # the pages. Deliberately no memory limit - a hard limit on the
+          # apiserver trades a slow control plane for a dead one.
+          resources:
+            requests:
+              cpu: 200m
+              memory: 1500Mi
+          env:
+            GOMEMLIMIT: 1750MiB
 
     # Machine configuration
     - |-
