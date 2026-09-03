@@ -25,9 +25,13 @@ spec:
           enabled: false
         l2announcements:
           enabled: true
-          leaseDuration: 3s
-          leaseRenewDeadline: 1s
-          leaseRetryPeriod: 500ms
+          # Chart defaults. The previous 3s/1s/500ms made every cilium-agent
+          # rewrite its lease once a second; lease renewals were 2.06M of the
+          # 2.12M total PUTs the apiserver had served since it last started.
+          # Costs ~15s instead of ~3s to fail a VIP over to another node.
+          leaseDuration: 15s
+          leaseRenewDeadline: 5s
+          leaseRetryPeriod: 2s
         kubeProxyReplacement: true
         ipv4NativeRoutingCIDR: 10.0.16.0/20
         enableIPv4Masquerade: true
