@@ -12,7 +12,7 @@ spec:
     - "ReadWriteOnce"
   resources:
     requests:
-      storage: "1Gi"
+      storage: "20Gi"
   storageClassName: "hcloud-volumes"
 ---
 apiVersion: v1
