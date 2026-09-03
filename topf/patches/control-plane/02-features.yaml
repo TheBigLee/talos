@@ -1,0 +1,11 @@
+# Split out of patches/all/. Talos rejects this on workers:
+#   "feature Kubernetes Talos API Access can only be enabled on control plane
+#    machines"
+machine:
+  features:
+    kubernetesTalosAPIAccess:
+      allowedKubernetesNamespaces:
+        - system-upgrade
+      allowedRoles:
+        - os:admin
+      enabled: true

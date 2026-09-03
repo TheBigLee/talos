@@ -11,7 +11,7 @@ secretsPath: secrets.sops.yaml
 patchesDir: patches
 data:
     diskEncryptionPassphrase: ENC[AES256_GCM,data:TuuqWqhdugi1aR8DnHnFnjW+nTVqIEzdGDLAzVOrK3E=,iv:RTaDJpEx1biMUdRkZXHvLVIWdX8bxqP1lE6bSBi6CvQ=,tag:0BpN8cRkTZr4coqxW4XBCQ==,type:str]
-    tailscaleAuthKey: ENC[AES256_GCM,data:0q4YDeWFgrbyAWGoil1Q0J5GSGtGy4JDbz7fL5eOejy0EUWI66VXx3RcRwv5rwPd,iv:+uzhPDrHAmO61QQyVLor6nJ3NYyKO2LtLfWxtgmatIY=,tag:FpEKDOvNX49s/+AZnfePiw==,type:str]
+    tailscaleAuthKey: ENC[AES256_GCM,data:ap/Qv4qF/k30OKc09Opqf194377mQ86gS/2REGL6vy8cSypZzhZSmgPDScWHXOz/x0FNKr7DVrN6qQC+xOH1iiZPQdHyClKSTFUlC1MhnAeZBdauJStNcw==,iv:VXIdKUTFggNNybkgVG52A+ywMwd+p28Vp5YGSJYIYf8=,tag:u57M9zwJwAV0FfBGSzJkDg==,type:str]
 nodes:
     - host: talos-cp1
       ip: 128.140.37.42
@@ -43,6 +43,6 @@ sops:
             -----END AGE ENCRYPTED FILE-----
           recipient: age1wk95zsslqpulwrvuywuhpza0h0gpwzwxq04f536at67p50ec4g5sex6g9r
     encrypted_regex: ^data$
-    lastmodified: "2026-09-03T12:22:00Z"
-    mac: ENC[AES256_GCM,data:tGhdFO1FCpCckIgtW7eUIjebTC7l1KqEznaWlSiGF9NoHqIJ/u49mTPHk5AOKKuW85ODrqmKrKbmzs7ALYzzZJDlzgn+VY7vV0xZ+AHI0DnxX9H/SmOx/KHEupCjuZN4q3gvdKZ96G9sLEGbTD/UjHKPklQSPgnmAI6I2SZQF2A=,iv:sVMrqPou0qknXNj1q96+LQQiIXM43hYerM2h6itVe1o=,tag:aEEcp/2HXFGr676nDQAdFQ==,type:str]
+    lastmodified: "2026-09-03T15:43:19Z"
+    mac: ENC[AES256_GCM,data:mCytHAfiNxihk2Y5Zu7I9+6Wi1zLrHlQAliRZIEceoQzOtKhBXBqTrieaf990gg5XV0dD6rOtM0VTQh11PexKGdSOiVwi/HOUYLUWOdm5mB8NfcKx9NIJrI3lQBfNqREdZkDlGb8nDoxEHbWRt2cSGB6Lv/VrGpqJB8UIjtm4ZE=,iv:lcKTuxjY0QVjSdqhfckvfSke2g6OM212OfxiSoJjroY=,tag:6tuRh1/yvPx7vdBDXkTdNw==,type:str]
     version: 3.13.3

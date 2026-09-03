@@ -81,3 +81,30 @@ variable "talos_snapshot_id" {
   type        = number
   default     = 334760723
 }
+
+variable "worker_count" {
+  description = "Number of worker servers"
+  type        = number
+  default     = 1
+}
+
+variable "worker_server_type" {
+  description = "Hetzner Cloud server type for worker nodes"
+  type        = string
+  default     = "cx23"
+}
+
+variable "worker_ip_start" {
+  description = "Starting IP offset for worker servers (10.0.1.X). Kept clear of server_ip_start so growing either pool never collides."
+  type        = number
+  default     = 20
+}
+
+variable "worker_snapshot_id" {
+  description = "Hetzner Cloud snapshot ID for worker nodes. Kept separate from talos_snapshot_id so pointing workers at a newer Talos image cannot force-replace the control plane servers. Set to null to fall back to talos_snapshot_id."
+  type        = number
+  # talos v1.13.9 metal-amd64, schematic 4a0d65c6 (siderolabs/tailscale),
+  # built 2026-09-03. Matches the version cp1/2/3 currently run, so a worker
+  # needs no post-join upgrade.
+  default = 427703318
+}
