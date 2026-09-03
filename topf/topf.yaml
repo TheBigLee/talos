@@ -1,0 +1,48 @@
+clusterName: talos-cluster
+clusterEndpoint: https://talos.bigli.io:6443
+# renovate: datasource=docker depName=ghcr.io/siderolabs/installer
+talosVersion: v1.13.9
+# renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
+kubernetesVersion: v1.36.4
+# topf resolves this file to a schematic ID locally and uses it for the
+# installer image, replacing talhelper's controlPlane.schematic block.
+schematicId: '@schematic.yaml'
+secretsPath: secrets.sops.yaml
+patchesDir: patches
+data:
+    diskEncryptionPassphrase: ENC[AES256_GCM,data:TuuqWqhdugi1aR8DnHnFnjW+nTVqIEzdGDLAzVOrK3E=,iv:RTaDJpEx1biMUdRkZXHvLVIWdX8bxqP1lE6bSBi6CvQ=,tag:0BpN8cRkTZr4coqxW4XBCQ==,type:str]
+    tailscaleAuthKey: ENC[AES256_GCM,data:0q4YDeWFgrbyAWGoil1Q0J5GSGtGy4JDbz7fL5eOejy0EUWI66VXx3RcRwv5rwPd,iv:+uzhPDrHAmO61QQyVLor6nJ3NYyKO2LtLfWxtgmatIY=,tag:FpEKDOvNX49s/+AZnfePiw==,type:str]
+nodes:
+    - host: talos-cp1
+      ip: 128.140.37.42
+      role: control-plane
+    - host: talos-cp2
+      ip: 188.34.195.69
+      role: control-plane
+    - host: talos-cp3
+      ip: 195.201.148.121
+      role: control-plane
+sops:
+    age:
+        - enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBtOTFKek9KaDV0b01Gelp1
+            K29WczlCTGVORjFubUNadjZwbXFBR3BXb2hjCmQ2eWN3NXR3bVgvcnJvNXlIUEkw
+            ODJkS0IwYS9WTmx2clZkcm9LeDd3T1kKLS0tIHlYS3g0cTVLakR0OTVra0pDN2xy
+            bFp6WEFuK1BpZ3N5allySVkvbnZoUG8KubplTRij4ZvFCLmwPHn8auTDhJf+ddyr
+            DxErCC0YR7VPzZnoy7HShrhxDDfmOCVj/0tk5UVY9e9EPeTJn5aMPA==
+            -----END AGE ENCRYPTED FILE-----
+          recipient: age1sqcyumdyut9t3e4557wxawwnvxlqt7wsprtfzgdzw984nlf5jsnqxsyv8z
+        - enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSArcjVXTnlhTGRjTHNqSE9V
+            Q0g4TUZpbkphNHpGOGtkcDBBZU9BdUYyazFBCld0dTh3NG94VnE4SzNOZU5IVFJs
+            a2ZRS0ExLzk2RTNlNnlZT1ZXQXBpblEKLS0tIHovUE1tKzk5WnlvY3FmKy8wUXZT
+            UkxHLzF4dUlvaFpkbThOQm9oT0ROTkUK2m5QzgzRMYyLE7wlzjWKv5rE2UtBoSt7
+            3DLziyJ6PBkAh6ElWPS+DtAjuaclWvomx+EJETIvPezN/qUVmEhxEQ==
+            -----END AGE ENCRYPTED FILE-----
+          recipient: age1wk95zsslqpulwrvuywuhpza0h0gpwzwxq04f536at67p50ec4g5sex6g9r
+    encrypted_regex: ^data$
+    lastmodified: "2026-09-03T12:22:00Z"
+    mac: ENC[AES256_GCM,data:tGhdFO1FCpCckIgtW7eUIjebTC7l1KqEznaWlSiGF9NoHqIJ/u49mTPHk5AOKKuW85ODrqmKrKbmzs7ALYzzZJDlzgn+VY7vV0xZ+AHI0DnxX9H/SmOx/KHEupCjuZN4q3gvdKZ96G9sLEGbTD/UjHKPklQSPgnmAI6I2SZQF2A=,iv:sVMrqPou0qknXNj1q96+LQQiIXM43hYerM2h6itVe1o=,tag:aEEcp/2HXFGr676nDQAdFQ==,type:str]
+    version: 3.13.3
