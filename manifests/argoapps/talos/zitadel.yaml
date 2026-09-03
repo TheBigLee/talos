@@ -17,7 +17,19 @@ spec:
             enabled: true
             service:
               appProtocol: ""
+            resources:
+              requests:
+                cpu: 50m
+                memory: 96Mi
+              limits:
+                memory: 256Mi
           replicaCount: 2
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              memory: 320Mi
           zitadel:
             masterkeySecretName: zitadel
             configmapConfig:

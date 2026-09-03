@@ -33,6 +33,12 @@ spec:
             - containerPort: 8080
               name: http
               protocol: TCP
+          resources:
+            requests:
+              cpu: 25m
+              memory: 64Mi
+            limits:
+              memory: 256Mi
           volumeMounts:
             - mountPath: /vol/data
               name: data

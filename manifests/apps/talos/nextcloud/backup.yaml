@@ -20,17 +20,17 @@ spec:
     fsGroup: 33
     runAsUser: 33
   backup:
-    schedule: '0 1 * * *'
+    schedule: '0 2 * * *'
     failedJobsHistoryLimit: 2
     successfulJobsHistoryLimit: 2
     # optional
     #promURL: https://prometheus-io-instance:8443
   check:
-    schedule: '0 3 * * 1'
+    schedule: '0 4 * * 2'
     # optional
     #promURL: https://prometheus-io-instance:8443
   prune:
-    schedule: '0 4 * * 0'
+    schedule: '0 5 * * 2'
     retention:
       keepLast: 5
       keepDaily: 14

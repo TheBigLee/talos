@@ -32,6 +32,12 @@ spec:
             datasources:
               initDatasources: true
               enabled: true
+          resources:
+            requests:
+              cpu: 100m
+              memory: 192Mi
+            limits:
+              memory: 512Mi
     - path: manifests/apps/talos/grafana
       repoURL: https://github.com/TheBigLee/talos.git
       targetRevision: HEAD

@@ -11,6 +11,36 @@ spec:
     - chart: hcloud-csi
       repoURL: https://charts.hetzner.cloud
       targetRevision: 2.22.2
+      helm:
+        values: |
+          controller:
+            resources:
+              csiAttacher:
+                requests: {cpu: 10m, memory: 24Mi}
+                limits: {memory: 96Mi}
+              csiResizer:
+                requests: {cpu: 10m, memory: 24Mi}
+                limits: {memory: 96Mi}
+              csiProvisioner:
+                requests: {cpu: 10m, memory: 24Mi}
+                limits: {memory: 96Mi}
+              livenessProbe:
+                requests: {cpu: 10m, memory: 16Mi}
+                limits: {memory: 64Mi}
+              hcloudCSIDriver:
+                requests: {cpu: 25m, memory: 48Mi}
+                limits: {memory: 192Mi}
+          node:
+            resources:
+              csiNodeDriverRegistrar:
+                requests: {cpu: 10m, memory: 16Mi}
+                limits: {memory: 64Mi}
+              livenessProbe:
+                requests: {cpu: 10m, memory: 16Mi}
+                limits: {memory: 64Mi}
+              hcloudCSIDriver:
+                requests: {cpu: 25m, memory: 48Mi}
+                limits: {memory: 160Mi}
     - path: manifests/apps/talos/_system/hetzner-csi-driver
       repoURL: https://github.com/TheBigLee/talos.git
       targetRevision: HEAD

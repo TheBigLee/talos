@@ -8,6 +8,16 @@ spec:
   imageName: ghcr.io/tensorchord/cloudnative-vectorchord:17.6-0.5.3
   instances: 3
 
+  # Sized from observed usage: peak RSS 1.7Gi on the primary. The limit is
+  # kept well above that so a spike does not OOMKill the primary and force
+  # a failover; the request is what keeps the scheduler honest.
+  resources:
+    requests:
+      cpu: 250m
+      memory: 1Gi
+    limits:
+      memory: 2560Mi
+
   affinity:
     enablePodAntiAffinity: true
     topologyKey: kubernetes.io/hostname
@@ -78,7 +88,14 @@ spec:
   type: rw
   template:
     spec:
-      containers: []
+      containers:
+        - name: pgbouncer
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              memory: 192Mi
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:

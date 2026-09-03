@@ -14,9 +14,23 @@ spec:
       helm:
         values: |
           replicaCount: 2
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              memory: 256Mi
     - chart: plugin-barman-cloud
       repoURL: https://cloudnative-pg.github.io/charts
       targetRevision: 0.7.1
+      helm:
+        values: |
+          resources:
+            requests:
+              cpu: 25m
+              memory: 32Mi
+            limits:
+              memory: 128Mi
   destination:
     namespace: cloudnative-pg
     server: https://kubernetes.default.svc

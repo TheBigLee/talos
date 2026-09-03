@@ -11,6 +11,14 @@ spec:
     - path: "."
       repoURL: oci://ghcr.io/home-operations/charts/tuppr
       targetRevision: 0.4.7
+      helm:
+        values: |
+          resources:
+            requests:
+              cpu: 25m
+              memory: 96Mi
+            limits:
+              memory: 192Mi
     - path: manifests/apps/talos/tuppr
       repoURL: https://github.com/TheBigLee/talos.git
       targetRevision: HEAD

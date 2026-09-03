@@ -29,6 +29,12 @@ spec:
             tag: 34.0.3-fpm
           nginx:
             enabled: true
+            resources:
+              requests:
+                cpu: 25m
+                memory: 32Mi
+              limits:
+                memory: 128Mi
           nextcloud:
             host: nextcloud.bigli.io
             configs:
@@ -76,6 +82,13 @@ spec:
             enabled: false
           cronjob:
             enabled: true
+            sidecar:
+              resources:
+                requests:
+                  cpu: 25m
+                  memory: 64Mi
+                limits:
+                  memory: 256Mi
           externalDatabase:
             type: postgresql
             host: psql-pooler.postgresql.svc.cluster.local
