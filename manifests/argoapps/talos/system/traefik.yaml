@@ -34,6 +34,13 @@ spec:
             limits:
               memory: 256Mi
 
+          # The Hetzner load balancer forwards 80/443 to nodePorts 30000/30001
+          # on targets labelled role=control-plane only. Worker nodes are not LB
+          # targets, so traefik must not be scheduled onto one or all public
+          # HTTP/HTTPS traffic is black-holed.
+          nodeSelector:
+            node-role.kubernetes.io/control-plane: ""
+
           ingressRoute:
             dashboard:
               enabled: true
