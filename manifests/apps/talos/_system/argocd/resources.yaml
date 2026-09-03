@@ -10,12 +10,16 @@ spec:
     spec:
       containers:
         - name: argocd-application-controller
+          # 1280Mi was set from a 913Mi steady-state peak and was too low: a
+          # full resync of all 26 Applications pins the container at its
+          # ceiling and it OOMKills in a loop. Observed peak at the ceiling was
+          # 1.3Gi, so give it real headroom.
           resources:
             requests:
               cpu: 250m
               memory: 640Mi
             limits:
-              memory: 1280Mi
+              memory: 2Gi
 ---
 apiVersion: apps/v1
 kind: Deployment
