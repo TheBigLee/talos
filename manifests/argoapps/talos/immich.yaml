@@ -37,14 +37,47 @@ spec:
             persistence:
               library:
                 existingClaim: immich-data
+          # Requests sized from observed steady-state RSS, limits from
+          # observed peaks plus headroom. Without these all three ran as
+          # BestEffort and were the first things Talos' OOM killer took.
           valkey:
             enabled: true
+            controllers:
+              main:
+                containers:
+                  main:
+                    resources:
+                      requests:
+                        cpu: 25m
+                        memory: 32Mi
+                      limits:
+                        memory: 128Mi
           server:
             enabled: true
+            controllers:
+              main:
+                containers:
+                  main:
+                    resources:
+                      requests:
+                        cpu: 200m
+                        memory: 1Gi
+                      limits:
+                        memory: 2560Mi
           machine-learning:
             persistence:
               cache:
                 storageClass: hcloud-volumes
+            controllers:
+              main:
+                containers:
+                  main:
+                    resources:
+                      requests:
+                        cpu: 100m
+                        memory: 512Mi
+                      limits:
+                        memory: 2Gi
     - path: manifests/apps/talos/immich
       repoURL: https://github.com/TheBigLee/talos.git
       targetRevision: HEAD

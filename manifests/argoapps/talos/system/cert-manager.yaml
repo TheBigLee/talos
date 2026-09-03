@@ -22,6 +22,26 @@ spec:
             apiVersion: controller.config.cert-manager.io/v1alpha1
             kind: ControllerConfiguration
             enableGatewayAPI: true
+          resources:
+            requests:
+              cpu: 25m
+              memory: 64Mi
+            limits:
+              memory: 192Mi
+          cainjector:
+            resources:
+              requests:
+                cpu: 25m
+                memory: 96Mi
+              limits:
+                memory: 256Mi
+          webhook:
+            resources:
+              requests:
+                cpu: 25m
+                memory: 32Mi
+              limits:
+                memory: 128Mi
   destination:
     namespace: cert-manager
     server: https://kubernetes.default.svc

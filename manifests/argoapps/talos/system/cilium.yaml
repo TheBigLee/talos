@@ -44,8 +44,28 @@ spec:
           enable: true
           relay:
             enabled: true
+            resources:
+              requests:
+                cpu: 25m
+                memory: 32Mi
+              limits:
+                memory: 128Mi
           ui:
             enabled: true
+            backend:
+              resources:
+                requests:
+                  cpu: 10m
+                  memory: 32Mi
+                limits:
+                  memory: 128Mi
+            frontend:
+              resources:
+                requests:
+                  cpu: 10m
+                  memory: 32Mi
+                limits:
+                  memory: 128Mi
         securityContext:
           capabilities:
             ciliumAgent:
@@ -65,8 +85,27 @@ spec:
               - "SYS_ADMIN"
               - "SYS_RESOURCE"
         rollOutCiliumPods: true
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            memory: 1Gi
+        envoy:
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              memory: 192Mi
         operator:
           rollOutPods: true
+          resources:
+            requests:
+              cpu: 25m
+              memory: 64Mi
+            limits:
+              memory: 256Mi
         certgen:
           # Workaround to keep the generated job around for 30d
           # as this makes the argo app unsynced

@@ -27,6 +27,13 @@ spec:
           api:
             dashboard: true
 
+          resources:
+            requests:
+              cpu: 50m
+              memory: 96Mi
+            limits:
+              memory: 256Mi
+
           ingressRoute:
             dashboard:
               enabled: true
