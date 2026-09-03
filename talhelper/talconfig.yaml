@@ -46,6 +46,29 @@ controlPlane:
         scheduler:
           extraArgs:
             bind-address: 0.0.0.0
+          # Spread every workload across nodes by default. Without this the
+          # scheduler only balances on requests with no anti-affinity pressure,
+          # which let talos-cp2 reach 99% of allocatable while cp3 sat at 62%.
+          #
+          # ScheduleAnyway on purpose: this is a soft preference. The cluster
+          # runs at ~77% requested, so a hard DoNotSchedule would strand pods
+          # as Pending rather than merely place them badly.
+          #
+          # Affects new placements only - it prevents the imbalance recurring,
+          # it does not unpack a node that is already full.
+          config:
+            apiVersion: kubescheduler.config.k8s.io/v1
+            kind: KubeSchedulerConfiguration
+            profiles:
+              - schedulerName: default-scheduler
+                pluginConfig:
+                  - name: PodTopologySpread
+                    args:
+                      defaultingType: List
+                      defaultConstraints:
+                        - maxSkew: 1
+                          topologyKey: kubernetes.io/hostname
+                          whenUnsatisfiable: ScheduleAnyway
         etcd:
           advertisedSubnets:
             - 10.0.1.0/24
