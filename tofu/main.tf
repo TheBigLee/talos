@@ -44,7 +44,7 @@ resource "hcloud_server" "control_plane" {
   image       = data.hcloud_image.talos.id
   server_type = var.server_type
   location    = var.location
-  
+
   public_net {
     ipv4_enabled = true
     ipv6_enabled = true
@@ -62,6 +62,23 @@ resource "hcloud_server" "control_plane" {
   }
 
   depends_on = [hcloud_network_subnet.talos]
+
+  lifecycle {
+    # Without this, every plan wants to replace all three control plane servers:
+    #
+    #   image      - Talos is upgraded in place (topf upgrade), so the snapshot
+    #                only ever matters at create time. talos-cp3 was built from
+    #                snapshot 335384756 while cp1/cp2 came from 334760723, so a
+    #                single talos_snapshot_id can never match all three.
+    #   location   - the provider does not read location/datacenter back into
+    #                state, so they stay empty and read as null -> "nbg1".
+    #
+    # Both attributes are ForceNew. prevent_destroy is a second line of defence:
+    # a plan that still wants these gone will error out instead of running.
+    ignore_changes = [image, location, datacenter]
+
+    prevent_destroy = true
+  }
 }
 
 resource "hcloud_load_balancer" "talos" {
