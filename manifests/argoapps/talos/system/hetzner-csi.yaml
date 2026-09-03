@@ -10,7 +10,7 @@ spec:
   sources:
     - chart: hcloud-csi
       repoURL: https://charts.hetzner.cloud
-      targetRevision: 2.22.2
+      targetRevision: 2.23.0
       helm:
         values: |
           controller:
