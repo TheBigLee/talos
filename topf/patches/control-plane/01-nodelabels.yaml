@@ -1,4 +1,12 @@
-machine:
-  nodeLabels:
-    node.kubernetes.io/exclude-from-external-load-balancers:
-      $patch: delete
+# Talos v1.14 ignores cluster.allowSchedulingOnControlPlanes entirely - the
+# rendered KubeNodeConfig is byte-identical with it true or false, and always
+# carries the NoSchedule taint. Without deleting it here every workload is
+# evicted from cp1/2/3.
+apiVersion: v1alpha1
+kind: KubeNodeConfig
+labels:
+  node.kubernetes.io/exclude-from-external-load-balancers:
+    $patch: delete
+taints:
+  node-role.kubernetes.io/control-plane:
+    $patch: delete
