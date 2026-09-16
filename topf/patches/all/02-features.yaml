@@ -1,5 +1,6 @@
-machine:
-  kubelet:
-    nodeIP:
-      validSubnets:
-        - 10.0.1.0/24
+# was machine.kubelet.nodeIP.validSubnets; v1.14 moves it to KubeNodeConfig.
+apiVersion: v1alpha1
+kind: KubeNodeConfig
+nodeIP:
+  validSubnets:
+    - 10.0.1.0/24

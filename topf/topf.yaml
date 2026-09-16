@@ -1,7 +1,7 @@
 clusterName: talos-cluster
 clusterEndpoint: https://talos.bigli.io:6443
 # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-talosVersion: v1.13.9
+talosVersion: v1.14.0
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
 kubernetesVersion: v1.36.4
 # topf resolves this file to a schematic ID locally and uses it for the
@@ -22,6 +22,9 @@ nodes:
     - host: talos-cp3
       ip: 195.201.148.121
       role: control-plane
+    - host: talos-w1
+      ip: 195.201.125.124
+      role: worker
 sops:
     age:
         - enc: |
@@ -43,6 +46,6 @@ sops:
             -----END AGE ENCRYPTED FILE-----
           recipient: age1wk95zsslqpulwrvuywuhpza0h0gpwzwxq04f536at67p50ec4g5sex6g9r
     encrypted_regex: ^data$
-    lastmodified: "2026-09-03T15:43:19Z"
-    mac: ENC[AES256_GCM,data:mCytHAfiNxihk2Y5Zu7I9+6Wi1zLrHlQAliRZIEceoQzOtKhBXBqTrieaf990gg5XV0dD6rOtM0VTQh11PexKGdSOiVwi/HOUYLUWOdm5mB8NfcKx9NIJrI3lQBfNqREdZkDlGb8nDoxEHbWRt2cSGB6Lv/VrGpqJB8UIjtm4ZE=,iv:lcKTuxjY0QVjSdqhfckvfSke2g6OM212OfxiSoJjroY=,tag:6tuRh1/yvPx7vdBDXkTdNw==,type:str]
+    lastmodified: "2026-09-15T14:13:23Z"
+    mac: ENC[AES256_GCM,data:2pdpr+stgEdXZGppDHy5pcqNi2xFTC+UYVDUFlONq75cPkq7sOr24OdeCQipzNuSi48J7vATV7RegmP5IHTjFsRKRVGQS7YQ7oTUW1bqZbDAQlYCcbwUtzia8O+gZZnKaRMEf5unYl8gPNgFYolD6wbldNzY8Jss4Lzkh02VFxI=,iv:qjha1AxR0h9MuwbEqz04hXdLVKTsWJimUSpmwHPMsl4=,tag:iwnTti4izPoGFpF2Mi0aFw==,type:str]
     version: 3.13.3
