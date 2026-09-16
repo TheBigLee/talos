@@ -22,7 +22,7 @@ spec:
               memory: 256Mi
     - chart: plugin-barman-cloud
       repoURL: https://cloudnative-pg.github.io/charts
-      targetRevision: 0.7.1
+      targetRevision: 0.8.0
       helm:
         values: |
           resources:
