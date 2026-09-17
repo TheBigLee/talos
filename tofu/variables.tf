@@ -91,7 +91,7 @@ variable "worker_count" {
 variable "worker_server_type" {
   description = "Hetzner Cloud server type for worker nodes"
   type        = string
-  default     = "cx23"
+  default     = "cx33"
 }
 
 variable "worker_ip_start" {
