@@ -13,6 +13,14 @@ spec:
       targetRevision: 0.92.1
       helm:
         values: |
+          defaultRules:
+            rules:
+              # Fires constantly because topf mints 12h admin kubeconfigs and
+              # the apiserver histogram reports every client cert it is shown -
+              # including short-lived human ones - as "expiring in <24h". There
+              # is no way to exclude them: the metric carries no identity.
+              KubeClientCertificateExpiration:
+                enabled: false
           grafana:
             # The chart generates the admin password with randAlphaNum at render
             # time, and `helm template` has no cluster lookup - so every Argo
