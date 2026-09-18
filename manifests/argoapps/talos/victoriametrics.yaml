@@ -14,6 +14,16 @@ spec:
       helm:
         values: |
           grafana:
+            # The chart generates the admin password with randAlphaNum at render
+            # time, and `helm template` has no cluster lookup - so every Argo
+            # sync produced a new password, rewrote the secret and rolled the
+            # pod, while Grafana keeps the password it was first initialised
+            # with (Grafana only applies GF_SECURITY_ADMIN_PASSWORD when it
+            # creates the admin user). Pin it to a sops-managed secret instead.
+            admin:
+              existingSecret: grafana-admin
+              userKey: admin-user
+              passwordKey: admin-password
             image:
               # renovate: datasource=docker depName=docker.io/grafana/grafana
               tag: 12.3.0

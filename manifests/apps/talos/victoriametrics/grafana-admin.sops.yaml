@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: grafana-admin
+stringData:
+    admin-user: ENC[AES256_GCM,data:f8aS4jI=,iv:Oo16uAyrOUHQFf9HDOnD1jQVov+xmoBHOAPyBl0BPmA=,tag:GfRt2Cz0NDVP8FzNaCZbcA==,type:str]
+    admin-password: ENC[AES256_GCM,data:MromrfZgKDhYBv04qSSkgO1ItWgJCDkTVZaTkiCPbt4=,iv:M3lLiLmuFV4mTksOp0ZXRK1a92iEEY4ESEavSZJhjK0=,tag:qvGp7jUGU8E6QSxfzr4Ppg==,type:str]
+sops:
+    age:
+        - enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSA2bWJIaUdPQVhIL1VaWGc4
+            YUM5SmRWdEk3NWt1azJqTCtEdjBxemdDcVg4CjhYeHVoYWpaTVNmTjlHUTlOM1Y0
+            SHJ5VTVTMGVua1BjY1dMamJUODAwTDgKLS0tIFR1b3I3L0V2cVVHdmpyK0hMLzg5
+            YzVVUWhYcElsVHk4M3lwZlNFVXVud00KGBPRnAr/8RF19smihG7byJsgUn2E0KM5
+            xgS/tqceZeVHEICWk0VcAsVZp+u6tTnGk08n5gxRIqnGSxrVgaaonw==
+            -----END AGE ENCRYPTED FILE-----
+          recipient: age1sqcyumdyut9t3e4557wxawwnvxlqt7wsprtfzgdzw984nlf5jsnqxsyv8z
+        - enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSAxeDFUdWhKWTRZMDJJc0cy
+            UmtNT3J2Ukgzc3JpRWl2ZUxvbDV3ckY2OG1nCkNVUUd3bWVraVdyc2dMS1Jiblgv
+            QVZ4T245ZEVaaEp2c3gyaUZtaStIbm8KLS0tIE9NNzRVR3pZd3kxeVJPZ1FhUldy
+            NmxsazZNYjFoS01iVjB0RVJhcjREWk0KoMaqnETUdBELWdl5v+cZM5Cj03uredLU
+            nbGfw9lFkhgfRUsMax0gDDodCbsUl0jmEgTzeIdkf5G+AN5amzU3ew==
+            -----END AGE ENCRYPTED FILE-----
+          recipient: age1wk95zsslqpulwrvuywuhpza0h0gpwzwxq04f536at67p50ec4g5sex6g9r
+        - enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBReTNaTnZPK2RRdzNIcms1
+            K05NNFFnNDJYY2pMalQ3UWV6N2txa3NvSENzCkxqQngzWVpDNXVvbXZLLzlaWFBY
+            U1l2RXBHNmZXaXdHV3MvbTgwaGtiVWMKLS0tIFBWQ3ViRFBJMzhwRUNlYWFvb0Y4
+            OTQxTHFUMVhSZThZNXJ2WWJYR1BxVTAKsXFGUOlNie5XHG/jna4cro89Gp3hQVPz
+            ZlTkvcjgHxENG9USJ6OcExw08qXuylUPHGwlp/5avcnCi6le/rb5UQ==
+            -----END AGE ENCRYPTED FILE-----
+          recipient: age18uhtqch7u93g56mqehhtp3nxvhhf0mq9tpqqdlvqu28hluxy5d4s4jampd
+    encrypted_regex: (^data|stringData)$
+    lastmodified: "2026-09-18T13:03:09Z"
+    mac: ENC[AES256_GCM,data:VFzaJWTvm+cGU9Hexm5u9UXHYIq7QX92tHGZOeKArl5XQBTpI2pZk/JBCzz1izWx9ZAyhXSsPcidfOu0GeM2WN83BB+JIJf28e6XxleDCHr7ESCBteIIuzJJHj7U+ehgNf6BikxgM5fAu5BVsYTOkbWrQ7HgJ7itCjWHOrXEnDI=,iv:/9X9JayBLtW2wgXGk4QtZUcSgoSPrWp5StOQghKtgak=,tag:YkT5KwqzPx3UgPr2ydGekA==,type:str]
+    version: 3.13.3
