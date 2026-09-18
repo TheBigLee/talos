@@ -21,8 +21,13 @@ spec:
               type: Recreate
             envFromSecret: grafana-oidc
             env:
-              GF_AUTH_GENERIC_OAUTH_SCOPES: "openid profile email"
-              GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_PATH: "contains(groups[*], 'grafana') && 'Admin'"
+              # Zitadel has no "groups" claim. Authorizations come back as
+              # project roles under the reserved claim below, and only when the
+              # matching reserved scope is requested - without it the role path
+              # matched nothing, everyone landed on Viewer, and Viewers cannot
+              # open Explore (Grafana 302s /explore to the home dashboard).
+              GF_AUTH_GENERIC_OAUTH_SCOPES: "openid profile email urn:zitadel:iam:org:project:roles"
+              GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_PATH: "contains(keys(not_null(\"urn:zitadel:iam:org:project:roles\", `{}`)), 'grafana') && 'Admin'"
               GF_SERVER_DOMAIN: "grafana.bigli.io"
               GF_SERVER_ROOT_URL: "https://grafana.bigli.io"
               GF_AUTH_OAUTH_ALLOW_INSECURE_EMAIL_LOOKUP: 'true'
