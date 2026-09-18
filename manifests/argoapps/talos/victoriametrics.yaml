@@ -47,6 +47,44 @@ spec:
           alertmanager:
             spec:
               disableNamespaceMatcher: true
+            config:
+              route:
+                receiver: blackhole
+                group_by: ["alertname", "namespace"]
+                group_wait: 1m
+                group_interval: 5m
+                # personal cluster: no on-call, so re-notify slowly
+                repeat_interval: 4h
+                routes:
+                  # Chatty-by-design rules that carry no actionable signal here
+                  - receiver: blackhole
+                    matchers:
+                      - alertname=~"Watchdog|InfoInhibitor|CPUThrottlingHigh|KubeMemoryOvercommit|KubeCPUOvercommit"
+                  - receiver: ntfy
+                    matchers:
+                      - severity=~"warning|critical"
+              inhibit_rules:
+                - source_matchers:
+                    - severity=critical
+                  target_matchers:
+                    - severity=~"warning|info"
+                  equal: ["alertname", "namespace"]
+                - source_matchers:
+                    - severity=warning
+                  target_matchers:
+                    - severity=info
+                  equal: ["alertname", "namespace"]
+                - source_matchers:
+                    - alertname=InfoInhibitor
+                  target_matchers:
+                    - severity=info
+                  equal: ["namespace"]
+              receivers:
+                - name: blackhole
+                - name: ntfy
+                  webhook_configs:
+                    - url: http://alertmanager-ntfy:8000/hook
+                      send_resolved: true
           kubeEtcd:
             enabled: true
             service:

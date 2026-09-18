@@ -1,0 +1,28 @@
+http:
+  addr: :8000
+ntfy:
+  baseurl: https://ntfy.sh
+  # ntfy.notification.topic lives in ntfy-secrets.sops.yaml: on ntfy.sh the
+  # topic name is the only thing protecting the feed, so it is not kept in
+  # plaintext here.
+  notification:
+    # https://docs.ntfy.sh/publish/#message-priority
+    priority: |
+      status == "resolved" ? "low" : (labels["severity"] == "critical" ? "high" : "default")
+    tags:
+      - tag: white_check_mark
+        condition: status == "resolved"
+      - tag: rotating_light
+        condition: status == "firing" && labels["severity"] == "critical"
+      - tag: warning
+        condition: status == "firing" && labels["severity"] == "warning"
+    templates:
+      title: |
+        {{ if eq .Status "resolved" }}Resolved: {{ end }}{{ index .Labels "alertname" }}{{ with index .Labels "namespace" }} ({{ . }}){{ end }}
+      description: |
+        {{ with index .Annotations "summary" }}{{ . }}
+        {{ end }}{{ with index .Annotations "description" }}{{ . }}{{ end }}
+      headers:
+        X-Click: |
+          {{ .GeneratorURL }}
+  async: false

@@ -1,0 +1,82 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alertmanager-ntfy
+  labels:
+    app: alertmanager-ntfy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alertmanager-ntfy
+  template:
+    metadata:
+      labels:
+        app: alertmanager-ntfy
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        runAsGroup: 65534
+      containers:
+        - name: alertmanager-ntfy
+          image: ghcr.io/alexbakker/alertmanager-ntfy:1.2.1
+          args:
+            - --configs
+            - /etc/alertmanager-ntfy/config.yml,/etc/alertmanager-ntfy/auth/auth.yml
+          ports:
+            - containerPort: 8000
+              name: http
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              memory: 64Mi
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 10
+          volumeMounts:
+            - name: config
+              mountPath: /etc/alertmanager-ntfy/config.yml
+              subPath: config.yml
+              readOnly: true
+            - name: auth
+              mountPath: /etc/alertmanager-ntfy/auth
+              readOnly: true
+      volumes:
+        - name: config
+          configMap:
+            name: alertmanager-ntfy-config
+        - name: auth
+          secret:
+            secretName: alertmanager-ntfy-auth
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: alertmanager-ntfy
+  labels:
+    app: alertmanager-ntfy
+spec:
+  type: ClusterIP
+  selector:
+    app: alertmanager-ntfy
+  ports:
+    - name: http
+      port: 8000
+      targetPort: http

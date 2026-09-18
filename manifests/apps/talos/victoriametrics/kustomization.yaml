@@ -1,9 +1,14 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+  - alertmanager-ntfy.yaml
   - etcdcert.yaml
   - httproute.yaml
   - namespace.yaml
   - stripped-down-crds.yaml
+configMapGenerator:
+  - name: alertmanager-ntfy-config
+    files:
+      - alertmanager-ntfy/config.yml
 generators:
   - secret-generator.yaml
