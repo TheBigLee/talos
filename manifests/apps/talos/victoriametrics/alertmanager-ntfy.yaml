@@ -80,3 +80,24 @@ spec:
     - name: http
       port: 8000
       targetPort: http
+---
+# ntfy.sh has no access control on free-tier topics, so anything that can reach
+# this service can push notifications to the phone. Only alertmanager needs to.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: alertmanager-ntfy
+spec:
+  podSelector:
+    matchLabels:
+      app: alertmanager-ntfy
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: vmalertmanager
+      ports:
+        - protocol: TCP
+          port: 8000

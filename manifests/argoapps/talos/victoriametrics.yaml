@@ -47,6 +47,10 @@ spec:
           alertmanager:
             spec:
               disableNamespaceMatcher: true
+              # Mounted at /etc/vm/secrets/alertmanager-ntfy-auth, used for the
+              # webhook basic_auth password below
+              secrets:
+                - alertmanager-ntfy-auth
             config:
               route:
                 receiver: blackhole
@@ -85,6 +89,10 @@ spec:
                   webhook_configs:
                     - url: http://alertmanager-ntfy:8000/hook
                       send_resolved: true
+                      http_config:
+                        basic_auth:
+                          username: alertmanager
+                          password_file: /etc/vm/secrets/alertmanager-ntfy-auth/webhook-password
           kubeEtcd:
             enabled: true
             service:
@@ -119,6 +127,26 @@ spec:
                       keySecret:
                         name: etcd-secrets
                         key: server.key
+          kubelet:
+            vmScrape:
+              spec:
+                # Chart default only drops uid/id/name. The node labelmap below
+                # it copies every node label onto every kubelet series, which
+                # (a) inflates cardinality and (b) rides along into alert
+                # labels - alertmanager-ntfy turns each alert label into an
+                # ntfy tag, and ntfy rejects the whole notification with
+                # HTTP 400 "tags are too large" past ~576 bytes of tags.
+                # Keep this list in sync with the chart's defaults on upgrade.
+                metricRelabelConfigs:
+                  - action: labeldrop
+                    regex: (uid)
+                  - action: labeldrop
+                    regex: (id|name)
+                  - action: drop
+                    source_labels: [__name__]
+                    regex: (rest_client_request_duration_seconds_bucket|rest_client_request_duration_seconds_sum|rest_client_request_duration_seconds_count)
+                  - action: labeldrop
+                    regex: (beta_)?kubernetes_io_.*|topology_kubernetes_io_.*|failure_domain_beta_kubernetes_io_.*|extensions_talos_dev_.*|csi_hetzner_cloud_.*
           kubeControllerManager:
             enabled: true
             service:
@@ -186,6 +214,13 @@ spec:
                   memory: 128Mi
                 limits:
                   memory: 320Mi
+          vmalert:
+            spec:
+              extraArgs:
+                # Chart default leaves this at "http://", so alerts carry a
+                # hostless GeneratorURL ("http:/explore?left=...") and the
+                # tap-through link on the phone notification goes nowhere.
+                external.url: https://grafana.bigli.io
           vmsingle:
             spec:
               resources:

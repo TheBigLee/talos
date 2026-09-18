@@ -2,9 +2,11 @@ http:
   addr: :8000
 ntfy:
   baseurl: https://ntfy.sh
-  # ntfy.notification.topic lives in ntfy-secrets.sops.yaml: on ntfy.sh the
-  # topic name is the only thing protecting the feed, so it is not kept in
-  # plaintext here.
+  # ntfy.notification.topic and http.auth live in ntfy-secrets.sops.yaml.
+  # On free ntfy.sh the topic name is the only thing protecting the feed
+  # (ACL-protected "reserved topics" start at the paid Supporter tier), so it
+  # is not kept in plaintext here. With a paid plan, add an access token as
+  # ntfy.auth.token in that same secret and reserve the topic.
   notification:
     # https://docs.ntfy.sh/publish/#message-priority
     priority: |
