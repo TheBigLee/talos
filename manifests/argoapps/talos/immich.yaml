@@ -65,9 +65,6 @@ spec:
                       limits:
                         memory: 2560Mi
           machine-learning:
-            persistence:
-              cache:
-                storageClass: hcloud-volumes
             controllers:
               main:
                 containers:
