@@ -12,7 +12,7 @@ spec:
       targetRevision: HEAD
     - chart: traefik
       repoURL: https://traefik.github.io/charts
-      targetRevision: 39.0.9
+      targetRevision: 41.6.0
       helm:
         values: |
           ports:
@@ -21,9 +21,13 @@ spec:
             websecure:
               nodePort: 30001
           service:
-            externalIPs:
-              - 91.98.1.136
-              - 2a01:4f8:1c1f:6001::1
+            # Chart 41 moved Service spec fields under service.spec. The service
+            # block is not additionalProperties:false, so the old top-level
+            # externalIPs is silently ignored rather than rejected.
+            spec:
+              externalIPs:
+                - 91.98.1.136
+                - 2a01:4f8:1c1f:6001::1
           api:
             dashboard: true
 
@@ -76,11 +80,12 @@ spec:
                   - kind: Secret
                     name: wildcard-bigli-io-tls
                     group: ""
-          logs:
-            general:
-              level: TRACE
-            access: 
-              enabled: true
+          # Chart 41 renamed logs.general -> log and logs.access -> accessLog
+          # to match upstream Traefik syntax.
+          log:
+            level: INFO
+          accessLog:
+            enabled: true
                 
           
   destination:
