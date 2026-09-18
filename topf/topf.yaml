@@ -3,7 +3,7 @@ clusterEndpoint: https://talos.bigli.io:6443
 # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
 talosVersion: v1.14.0
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
-kubernetesVersion: v1.36.4
+kubernetesVersion: v1.37.0
 # topf resolves this file to a schematic ID locally and uses it for the
 # installer image, replacing talhelper's controlPlane.schematic block.
 schematicId: '@schematic.yaml'
@@ -46,6 +46,6 @@ sops:
             -----END AGE ENCRYPTED FILE-----
           recipient: age1wk95zsslqpulwrvuywuhpza0h0gpwzwxq04f536at67p50ec4g5sex6g9r
     encrypted_regex: ^data$
-    lastmodified: "2026-09-15T14:13:23Z"
-    mac: ENC[AES256_GCM,data:2pdpr+stgEdXZGppDHy5pcqNi2xFTC+UYVDUFlONq75cPkq7sOr24OdeCQipzNuSi48J7vATV7RegmP5IHTjFsRKRVGQS7YQ7oTUW1bqZbDAQlYCcbwUtzia8O+gZZnKaRMEf5unYl8gPNgFYolD6wbldNzY8Jss4Lzkh02VFxI=,iv:qjha1AxR0h9MuwbEqz04hXdLVKTsWJimUSpmwHPMsl4=,tag:iwnTti4izPoGFpF2Mi0aFw==,type:str]
+    lastmodified: "2026-09-18T10:45:20Z"
+    mac: ENC[AES256_GCM,data:TVj6d9NcBHSVrzPbxE17rFFXbDC6zDIcaEDHOsMcsJ8XdbLN55vLTY9w4ntANHe2NkojZL6ye5fvuosQaEIQrhs2Fp+i9vldMkJFjWUoBh0RC88Gti0ugsyXI9IsoVZufW0u8wi/eLBgOW/swEDINOOaacyjqXdRn30qySYW92I=,iv:v4RzvKoi2N752aG0JJbCN9nEZ6gSLsqbxMLHB0/m1Pw=,tag:tTuGfIZgOziIXw4RRFX9Sw==,type:str]
     version: 3.13.3
