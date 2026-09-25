@@ -25,6 +25,12 @@ spec:
               limits:
                 memory: 256Mi
           replicaCount: 2
+          tools:
+            kubectl:
+              image:
+                # Chart defaults tag to cluster version, which may not exist yet
+                repository: alpine/k8s
+                tag: 1.37.0
           resources:
             requests:
               cpu: 50m
