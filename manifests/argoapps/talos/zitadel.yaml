@@ -15,6 +15,7 @@ spec:
         values: |
           login:
             enabled: true
+            loginServiceKeySecretName: zitadel-login-service-key
             service:
               appProtocol: ""
             resources:
