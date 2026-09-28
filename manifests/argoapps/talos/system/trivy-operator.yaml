@@ -1,0 +1,64 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: trivy-operator
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  sources:
+    - path: manifests/apps/talos/_system/trivy-operator
+      repoURL: https://github.com/TheBigLee/talos.git
+      targetRevision: HEAD
+    - chart: trivy-operator
+      repoURL: https://aquasecurity.github.io/helm-charts/
+      targetRevision: 0.36.0
+      helm:
+        values: |
+          operator:
+            # One shared Trivy server caches the vuln DB; scan jobs only run
+            # the lightweight client instead of each downloading the DB.
+            builtInTrivyServer: true
+            scanJobsConcurrentLimit: 3
+            # node-collector needs hostPath and assumes a regular Linux host;
+            # on Talos the CIS node checks are meaningless.
+            infraAssessmentScannerEnabled: false
+            clusterComplianceEnabled: false
+          trivy:
+            ignoreUnfixed: true
+            severity: MEDIUM,HIGH,CRITICAL
+            # DB is re-downloaded on restart (~1GB); cheaper than a Hetzner
+            # volume, whose 10Gi minimum would be mostly empty.
+            storageClassEnabled: false
+            resources:
+              requests:
+                cpu: 50m
+                memory: 100M
+              limits:
+                memory: 500M
+            server:
+              resources:
+                requests:
+                  cpu: 50m
+                  memory: 256Mi
+                limits:
+                  memory: 1Gi
+          # Converted to a VMServiceScrape by the victoria-metrics-operator.
+          serviceMonitor:
+            enabled: true
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              memory: 512Mi
+  destination:
+    namespace: trivy-system
+    server: https://kubernetes.default.svc
+  project: system
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+    automated:
+      prune: true
