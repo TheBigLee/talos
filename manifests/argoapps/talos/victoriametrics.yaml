@@ -87,6 +87,12 @@ spec:
                   - receiver: blackhole
                     matchers:
                       - alertname=~"Watchdog|InfoInhibitor|CPUThrottlingHigh|KubeMemoryOvercommit|KubeCPUOvercommit"
+                  # CVE findings stay open until an upstream image is fixed and
+                  # bumped - often days. Notify once, then remind weekly.
+                  - receiver: ntfy
+                    repeat_interval: 168h
+                    matchers:
+                      - alertname=~"TrivyCriticalVulnerability|TrivyExposedSecret"
                   - receiver: ntfy
                     matchers:
                       - severity=~"warning|critical"

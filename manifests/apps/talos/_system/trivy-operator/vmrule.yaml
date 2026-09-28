@@ -1,0 +1,39 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMRule
+metadata:
+  name: trivy-operator
+spec:
+  groups:
+    - name: trivy-operator
+      rules:
+        # Aggregated per image: the raw series carry resource/container labels,
+        # which would fire one alert per pod using the image. `sum by` also drops
+        # Trivy's own `severity` label, which would clash with the alert's.
+        #
+        # keep_firing_for bridges the gap when a report is deleted and rescanned
+        # (scannerReportTTL), which would otherwise resolve and re-fire the alert
+        # every day.
+        - alert: TrivyCriticalVulnerability
+          expr: |
+            sum by (namespace, image_registry, image_repository, image_tag) (
+              trivy_image_vulnerabilities{severity="Critical"}
+            ) > 0
+          for: 1h
+          keep_firing_for: 6h
+          labels:
+            severity: warning
+          annotations:
+            summary: "{{ $value }} fixable critical CVE(s) in {{ $labels.image_repository }}:{{ $labels.image_tag }}"
+            description: "kubectl get vulnerabilityreports -n {{ $labels.namespace }} -o wide"
+        - alert: TrivyExposedSecret
+          expr: |
+            sum by (namespace, image_registry, image_repository, image_tag) (
+              trivy_image_exposedsecrets{severity=~"Critical|High"}
+            ) > 0
+          for: 1h
+          keep_firing_for: 6h
+          labels:
+            severity: warning
+          annotations:
+            summary: "{{ $value }} secret(s) baked into {{ $labels.image_repository }}:{{ $labels.image_tag }}"
+            description: "kubectl get exposedsecretreports -n {{ $labels.namespace }} -o wide"
