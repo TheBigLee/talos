@@ -3,6 +3,11 @@ kind: Application
 metadata:
   name: trivy-operator
   namespace: argocd
+  annotations:
+    # The VMRule CRD defaults `record: ""` on every rule. Client-side diff
+    # doesn't know CRD defaults and reports the VMRule OutOfSync forever;
+    # server-side diff compares against a dry-run apply, which includes them.
+    argocd.argoproj.io/compare-options: ServerSideDiff=true
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
