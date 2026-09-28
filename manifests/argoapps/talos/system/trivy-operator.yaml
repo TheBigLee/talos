@@ -27,6 +27,11 @@ spec:
           trivy:
             ignoreUnfixed: true
             severity: MEDIUM,HIGH,CRITICAL
+            # Debian's ssl-cert postinst bakes a placeholder self-signed key into
+            # every image that installs it (e.g. Postgres images). Nothing we run
+            # uses it - CNPG supplies its own server cert - but the secret scanner
+            # flags it as an exposed private key.
+            skipFiles: /etc/ssl/private/ssl-cert-snakeoil.key
             # DB is re-downloaded on restart (~1GB); cheaper than a Hetzner
             # volume, whose 10Gi minimum would be mostly empty.
             storageClassEnabled: false
