@@ -13,8 +13,18 @@ spec:
         # keep_firing_for bridges the gap when a report is deleted and rescanned
         # (scannerReportTTL), which would otherwise resolve and re-fire the alert
         # every day.
+        #
+        # Only fires when a newer image actually drops a critical CVE: a fixed
+        # package upstream is useless until the image is rebuilt. The count
+        # comes from the trivy-update-check CronJob, pushed every 6h (hence
+        # last_over_time); the `and` against the live Trivy series clears the
+        # alert as soon as the image is no longer running.
         - alert: TrivyCriticalVulnerability
           expr: |
+            max by (namespace, image_registry, image_repository, image_tag, update_tag) (
+              last_over_time(trivy_image_update_fixed_vulnerabilities{severity="Critical"}[7h])
+            ) > 0
+            and on (namespace, image_registry, image_repository, image_tag)
             sum by (namespace, image_registry, image_repository, image_tag) (
               trivy_image_vulnerabilities{severity="Critical"}
             ) > 0
@@ -23,7 +33,7 @@ spec:
           labels:
             severity: warning
           annotations:
-            summary: "{{ $value }} fixable critical CVE(s) in {{ $labels.image_repository }}:{{ $labels.image_tag }}"
+            summary: "Updating {{ $labels.image_repository }}:{{ $labels.image_tag }} to {{ $labels.update_tag }} fixes {{ $value }} critical CVE(s)"
             description: "kubectl get vulnerabilityreports -n {{ $labels.namespace }} -o wide"
         - alert: TrivyExposedSecret
           expr: |

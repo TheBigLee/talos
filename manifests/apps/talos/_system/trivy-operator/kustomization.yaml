@@ -2,11 +2,16 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - vmrule.yaml
-# Grafana (victoria-metrics-k8s-stack) only watches its own namespace for
-# dashboard ConfigMaps, so the dashboard is shipped into victoriametrics
-# rather than widening the sidecar's RBAC to every namespace.
-# Source: https://grafana.com/grafana/dashboards/17813 (revision 2)
+  - update-check.yaml
 configMapGenerator:
+  # Hash suffix kept: the CronJob reference is rewritten on every change.
+  - name: trivy-update-check
+    files:
+      - update-check.sh
+  # Grafana (victoria-metrics-k8s-stack) only watches its own namespace for
+  # dashboard ConfigMaps, so the dashboard is shipped into victoriametrics
+  # rather than widening the sidecar's RBAC to every namespace.
+  # Source: https://grafana.com/grafana/dashboards/17813 (revision 2)
   - name: trivy-operator-dashboard
     namespace: victoriametrics
     files:

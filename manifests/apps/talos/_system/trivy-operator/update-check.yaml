@@ -1,0 +1,72 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: trivy-update-check
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: trivy-update-check
+rules:
+  - apiGroups: ["aquasecurity.github.io"]
+    resources: ["vulnerabilityreports"]
+    verbs: ["list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: trivy-update-check
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: trivy-update-check
+subjects:
+  - kind: ServiceAccount
+    name: trivy-update-check
+    namespace: trivy-system
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: trivy-update-check
+spec:
+  # Must stay below the last_over_time window of TrivyCriticalVulnerability.
+  schedule: "17 */6 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      activeDeadlineSeconds: 10800
+      template:
+        spec:
+          serviceAccountName: trivy-update-check
+          restartPolicy: Never
+          containers:
+            - name: update-check
+              # Client/server mode: keep in step with the trivy-server tag
+              # shipped by the trivy-operator chart.
+              image: mirror.gcr.io/aquasec/trivy:0.74.0
+              command: ["/bin/sh", "/scripts/update-check.sh"]
+              env:
+                - name: TRIVY_CACHE_DIR
+                  value: /tmp/trivy
+              resources:
+                requests:
+                  cpu: 50m
+                  memory: 128Mi
+                limits:
+                  memory: 1Gi
+              volumeMounts:
+                - name: scripts
+                  mountPath: /scripts
+                - name: tmp
+                  mountPath: /tmp
+          volumes:
+            - name: scripts
+              configMap:
+                name: trivy-update-check
+            - name: tmp
+              emptyDir:
+                sizeLimit: 5Gi
