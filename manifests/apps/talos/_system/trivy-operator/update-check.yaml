@@ -47,7 +47,7 @@ spec:
             - name: update-check
               # Client/server mode: keep in step with the trivy-server tag
               # shipped by the trivy-operator chart.
-              image: mirror.gcr.io/aquasec/trivy:0.74.0
+              image: mirror.gcr.io/aquasec/trivy:0.75.0
               command: ["/bin/sh", "/scripts/update-check.sh"]
               env:
                 - name: TRIVY_CACHE_DIR
