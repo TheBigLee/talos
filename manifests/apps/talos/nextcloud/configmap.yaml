@@ -6,3 +6,15 @@ data:
   www-data: |
     */5 * * * * php -f /var/www/html/cron.php
     */30 * * * * php -f /var/www/html/occ preview:generate-all
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: php-fpm-log-config
+data:
+  # php-fpm's default %R logs the TCP peer, which is always the nginx sidecar
+  # on 127.0.0.1. Log the client IP from X-Forwarded-For instead; Traefik
+  # replaces any client-supplied value, so it holds exactly one address.
+  zz-log.conf: |
+    [www]
+    access.format = "%{HTTP_X_FORWARDED_FOR}e - %u %t \"%m %r%Q%q\" %s"
