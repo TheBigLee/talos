@@ -142,6 +142,7 @@ resource "hcloud_load_balancer_service" "traefik_http" {
   protocol         = "tcp"
   listen_port      = 80
   destination_port = var.traefik_http_port
+  proxyprotocol    = true
 
   health_check {
     protocol = "tcp"
@@ -157,6 +158,7 @@ resource "hcloud_load_balancer_service" "traefik_https" {
   protocol         = "tcp"
   listen_port      = 443
   destination_port = var.traefik_https_port
+  proxyprotocol    = true
 
   health_check {
     protocol = "tcp"

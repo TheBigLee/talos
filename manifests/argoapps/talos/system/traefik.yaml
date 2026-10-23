@@ -18,8 +18,20 @@ spec:
           ports:
             web:
               nodePort: 30000
+              # The Hetzner LB sends PROXY protocol v2 so the real client IP
+              # survives the TCP hop and Cilium's SNAT. Header is optional for
+              # trusted sources, so in-cluster traffic via externalIPs still works.
+              # 10.0.1.0/24 = nodes + LB, 10.244.0.0/16 = Cilium internal IPs.
+              proxyProtocol:
+                trustedIPs:
+                  - 10.0.1.0/24
+                  - 10.244.0.0/16
             websecure:
               nodePort: 30001
+              proxyProtocol:
+                trustedIPs:
+                  - 10.0.1.0/24
+                  - 10.244.0.0/16
           service:
             # Chart 41 moved Service spec fields under service.spec. The service
             # block is not additionalProperties:false, so the old top-level
