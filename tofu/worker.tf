@@ -41,6 +41,16 @@ resource "hcloud_server" "worker" {
   }
 
   depends_on = [hcloud_network_subnet.talos]
+
+  lifecycle {
+    # Same ForceNew traps as hcloud_server.control_plane (see main.tf): location
+    # is never read back into state, so every plan wanted to replace the worker,
+    # and Talos is upgraded in place, so the snapshot only matters at create time.
+    #
+    # No prevent_destroy here, unlike the control plane: it would also block
+    # scaling var.worker_count down.
+    ignore_changes = [image, location, datacenter]
+  }
 }
 
 output "worker_servers" {

@@ -65,9 +65,15 @@ spec:
               - name: cron-config
                 configMap:
                   name: cron-config
+              - name: php-fpm-log-config
+                configMap:
+                  name: php-fpm-log-config
             extraVolumeMounts:
               - name: cron-config
                 mountPath: /var/spool/cron/crontabs/
+              - name: php-fpm-log-config
+                mountPath: /usr/local/etc/php-fpm.d/zz-log.conf
+                subPath: zz-log.conf
             podSecurityContext:
               fsGroupChangePolicy: OnRootMismatch
           resources:
