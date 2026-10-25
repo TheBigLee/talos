@@ -75,7 +75,10 @@
         "pin",
         "digest"
       ],
-      "automerge": true
+      "pinDigests": true,
+      "automerge": true,
+      "ignoreTests": true,
+      "description": "Pin nextcloud image digest and automerge non-major and same-tag rebuild updates"
     },
     {
       "matchPackageNames": [
@@ -161,7 +164,7 @@
         "/manifests/argoapps/talos/nextcloud.yaml/"
       ],
       "matchStrings": [
-        "tag:\\s*\"?(?<currentValue>[\\d\\.]+-fpm)\"?"
+        "tag:\\s*\"?(?<currentValue>[\\d\\.]+-fpm)(@(?<currentDigest>sha256:[a-f0-9]{64}))?\"?"
       ],
       "depNameTemplate": "nextcloud",
       "datasourceTemplate": "docker",
