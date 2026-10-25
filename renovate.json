@@ -100,7 +100,8 @@
     },
     {
       "matchPackageNames": [
-        "immich-app/immich"
+        "ghcr.io/immich-app/immich-server",
+        "ghcr.io/immich-app/immich-machine-learning"
       ],
       "matchFileNames": [
         "manifests/argoapps/talos/immich.yaml"
@@ -109,7 +110,25 @@
         "custom.regex"
       ],
       "matchDatasources": [
-        "github-releases"
+        "docker"
+      ],
+      "groupName": "immich",
+      "pinDigests": true,
+      "description": "Keep immich server and machine-learning on the same version in one PR"
+    },
+    {
+      "matchPackageNames": [
+        "ghcr.io/immich-app/immich-server",
+        "ghcr.io/immich-app/immich-machine-learning"
+      ],
+      "matchFileNames": [
+        "manifests/argoapps/talos/immich.yaml"
+      ],
+      "matchManagers": [
+        "custom.regex"
+      ],
+      "matchDatasources": [
+        "docker"
       ],
       "matchUpdateTypes": [
         "major"
@@ -119,7 +138,8 @@
     },
     {
       "matchPackageNames": [
-        "immich-app/immich"
+        "ghcr.io/immich-app/immich-server",
+        "ghcr.io/immich-app/immich-machine-learning"
       ],
       "matchFileNames": [
         "manifests/argoapps/talos/immich.yaml"
@@ -128,15 +148,17 @@
         "custom.regex"
       ],
       "matchDatasources": [
-        "github-releases"
+        "docker"
       ],
       "matchUpdateTypes": [
         "minor",
-        "patch"
+        "patch",
+        "pin",
+        "digest"
       ],
       "automerge": true,
       "ignoreTests": true,
-      "description": "Automerge non-major immich updates"
+      "description": "Automerge non-major and same-tag rebuild immich updates"
     }
   ],
   "customManagers": [
@@ -176,11 +198,9 @@
         "/manifests/argoapps/talos/immich.yaml/"
       ],
       "matchStrings": [
-        "tag:\\s*\"?(?<currentValue>v\\d+\\.\\d+\\.\\d+)\"?"
+        "# renovate: image=(?<depName>\\S+)\\n\\s+tag:\\s*\"?(?<currentValue>v\\d+\\.\\d+\\.\\d+)(@(?<currentDigest>sha256:[a-f0-9]{64}))?\"?"
       ],
-      "depNameTemplate": "immich-app/immich",
-      "datasourceTemplate": "github-releases",
-      "packageNameTemplate": "immich-app/immich"
+      "datasourceTemplate": "docker"
     }
   ]
 }
