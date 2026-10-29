@@ -19,9 +19,6 @@
       "/manifests/argoapps/.+\\.yaml$/"
     ]
   },
-  "major": {
-    "enabled": true
-  },
   "recreateWhen": "always",
   "rebaseWhen": "conflicted",
   "prHourlyLimit": 0,
@@ -29,56 +26,22 @@
   "packageRules": [
     {
       "matchUpdateTypes": [
-        "patch",
-        "digest"
-      ],
-      "matchCurrentVersion": "!/^0/",
-      "ignoreTests": true,
-      "automerge": true
-    },
-    {
-      "matchDatasources": [
-        "docker",
-        "helm"
-      ],
-      "major": {
-        "enabled": true
-      }
-    },
-    {
-      "matchFileNames": [
-        "manifests/argoapps/talos/system/k8up.yaml",
-        "manifests/argoapps/talos/nextcloud.yaml"
-      ],
-      "automerge": true,
-      "ignoreTests": true
-    },
-    {
-      "matchPackageNames": [
-        "nextcloud"
-      ],
-      "matchFileNames": [
-        "manifests/argoapps/talos/nextcloud.yaml"
-      ],
-      "matchManagers": [
-        "custom.regex"
-      ],
-      "matchDatasources": [
-        "docker"
-      ],
-      "major": {
-        "enabled": true
-      },
-      "matchUpdateTypes": [
         "minor",
         "patch",
         "pin",
+        "pinDigest",
         "digest"
       ],
-      "pinDigests": true,
       "automerge": true,
       "ignoreTests": true,
-      "description": "Pin nextcloud image digest and automerge non-major and same-tag rebuild updates"
+      "description": "Automerge all non-major updates"
+    },
+    {
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "automerge": false,
+      "description": "Major updates always need a manual merge"
     },
     {
       "matchPackageNames": [
@@ -93,10 +56,8 @@
       "matchDatasources": [
         "docker"
       ],
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "automerge": false
+      "pinDigests": true,
+      "description": "Pin nextcloud image digest"
     },
     {
       "matchPackageNames": [
@@ -115,50 +76,6 @@
       "groupName": "immich",
       "pinDigests": true,
       "description": "Keep immich server and machine-learning on the same version in one PR"
-    },
-    {
-      "matchPackageNames": [
-        "ghcr.io/immich-app/immich-server",
-        "ghcr.io/immich-app/immich-machine-learning"
-      ],
-      "matchFileNames": [
-        "manifests/argoapps/talos/immich.yaml"
-      ],
-      "matchManagers": [
-        "custom.regex"
-      ],
-      "matchDatasources": [
-        "docker"
-      ],
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "automerge": false,
-      "description": "Prevent automerge of major updates for immich"
-    },
-    {
-      "matchPackageNames": [
-        "ghcr.io/immich-app/immich-server",
-        "ghcr.io/immich-app/immich-machine-learning"
-      ],
-      "matchFileNames": [
-        "manifests/argoapps/talos/immich.yaml"
-      ],
-      "matchManagers": [
-        "custom.regex"
-      ],
-      "matchDatasources": [
-        "docker"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "pin",
-        "digest"
-      ],
-      "automerge": true,
-      "ignoreTests": true,
-      "description": "Automerge non-major and same-tag rebuild immich updates"
     }
   ],
   "customManagers": [
@@ -201,6 +118,18 @@
         "# renovate: image=(?<depName>\\S+)\\n\\s+tag:\\s*\"?(?<currentValue>v\\d+\\.\\d+\\.\\d+)(@(?<currentDigest>sha256:[a-f0-9]{64}))?\"?"
       ],
       "datasourceTemplate": "docker"
+    },
+    {
+      "customType": "regex",
+      "description": "Upstream manifests referenced by URL in kustomizations",
+      "managerFilePatterns": [
+        "/(^|/)kustomization\\.yaml$/"
+      ],
+      "matchStrings": [
+        "https://raw\\.githubusercontent\\.com/(?<depName>[^/\\s]+/[^/\\s]+)/(?<currentValue>v[^/\\s]+)/",
+        "https://github\\.com/(?<depName>[^/\\s]+/[^/\\s]+)/releases/download/(?<currentValue>v[^/\\s]+)/"
+      ],
+      "datasourceTemplate": "github-releases"
     }
   ]
 }
