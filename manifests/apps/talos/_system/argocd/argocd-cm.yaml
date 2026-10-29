@@ -6,6 +6,12 @@ data:
   # For KSOPs versions < v2.5.0, use the old kustomize flag style
   # kustomize.buildOptions: "--enable_alpha_plugins"
   kustomize.buildOptions: "--enable-alpha-plugins --enable-exec --enable-helm"
+  # Argo CD adds pre-/post-delete finalizers to an Application at runtime when
+  # its manifests contain PreDelete/PostDelete hooks (e.g. vm, k8up charts).
+  # They are not in git, so the app-of-apps would show the child as OutOfSync.
+  resource.customizations.ignoreDifferences.argoproj.io_Application: |
+    jqPathExpressions:
+      - '.metadata.finalizers[] | select(startswith("pre-delete-finalizer.argocd.argoproj.io") or startswith("post-delete-finalizer.argocd.argoproj.io"))'
   resource.exclusions: |
     - apiGroups:
       - cilium.io

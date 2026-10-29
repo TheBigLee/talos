@@ -15,5 +15,9 @@ spec:
     directory:
       recurse: true
   syncPolicy:
+    syncOptions:
+      # Keep the pre-/post-delete finalizers Argo CD adds to child apps (see
+      # ignoreDifferences in argocd-cm) instead of stripping them on sync.
+      - RespectIgnoreDifferences=true
     automated:
       prune: true
