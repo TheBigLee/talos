@@ -9,7 +9,7 @@ spec:
   project: apps
   sources:
     - chart: grafana
-      repoURL: https://grafana.github.io/helm-charts
+      repoURL: https://grafana-community.github.io/helm-charts
       targetRevision: 10.5.15
       helm:
         values: |
@@ -32,6 +32,17 @@ spec:
             datasources:
               initDatasources: true
               enabled: true
+              # Since chart 10.5 the init container runs with METHOD=WATCH and
+              # never exits unless it is a native sidecar. The startup probe
+              # keeps Grafana from starting before the first datasource sync.
+              restartPolicy: Always
+              startupProbe:
+                httpGet:
+                  path: /healthz
+                  port: 8082
+                initialDelaySeconds: 5
+                periodSeconds: 5
+                failureThreshold: 60
           resources:
             requests:
               cpu: 100m
