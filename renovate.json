@@ -3,6 +3,9 @@
   "labels": [
     "maintenance"
   ],
+  "assignees": [
+    "TheBigLee"
+  ],
   "dependencyDashboard": true,
   "enabledManagers": [
     "kubernetes",
