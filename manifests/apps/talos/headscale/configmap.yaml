@@ -52,3 +52,14 @@ data:
         - name: "home-assistant.bigli.io"
           type: "A"
           value: "100.64.0.7"
+        # Tailnet-only services behind the traefik-tailnet Service
+        # (manifests/apps/talos/_system/traefik/tailnet-service.yaml).
+        - name: "paperless.bigli.io"
+          type: "A"
+          value: "100.64.0.6"
+        - name: "paperless.bigli.io"
+          type: "A"
+          value: "100.64.0.2"
+        - name: "paperless.bigli.io"
+          type: "A"
+          value: "100.64.0.10"
