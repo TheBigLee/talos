@@ -1,0 +1,22 @@
+# Exposes the "tailnet" entrypoint on 443 of the control-plane nodes' tailscale
+# addresses only. ClusterIP so no NodePort is opened on the public interfaces.
+# Headscale extra_records point tailnet-only hostnames at these IPs. Update both
+# if a node re-registers with headscale and gets a new address.
+apiVersion: v1
+kind: Service
+metadata:
+  name: traefik-tailnet
+  namespace: traefik-system
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: traefik
+    app.kubernetes.io/instance: traefik-traefik-system
+  externalIPs:
+    - 100.64.0.6   # talos-cp1
+    - 100.64.0.2   # talos-cp2
+    - 100.64.0.10  # talos-cp3
+  ports:
+    - name: https
+      port: 443
+      targetPort: tailnet

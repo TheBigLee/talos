@@ -32,6 +32,13 @@ spec:
                 trustedIPs:
                   - 10.0.1.0/24
                   - 10.244.0.0/16
+            # Tailnet-only entrypoint. Not exposed on the public LB service;
+            # reached via the traefik-tailnet Service, whose externalIPs are
+            # the nodes' tailscale addresses. No PROXY protocol on this path.
+            tailnet:
+              port: 9443
+              expose:
+                default: false
           service:
             # Chart 41 moved Service spec fields under service.spec. The service
             # block is not additionalProperties:false, so the old top-level
@@ -83,6 +90,17 @@ spec:
                   from: All
               websecure:
                 port: 8443
+                protocol: HTTPS
+                hostname: '*.bigli.io'
+                namespacePolicy:
+                  from: All
+                mode: Terminate
+                certificateRefs:
+                  - kind: Secret
+                    name: wildcard-bigli-io-tls
+                    group: ""
+              tailnet:
+                port: 9443
                 protocol: HTTPS
                 hostname: '*.bigli.io'
                 namespacePolicy:
