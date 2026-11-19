@@ -90,12 +90,14 @@ spec:
           cronjob:
             enabled: true
             sidecar:
+              # Limit matches PHP_MEMORY_LIMIT (1024M). At 256Mi the sidecar
+              # was OOMKilled nightly at 01:00 by the daily background jobs.
               resources:
                 requests:
                   cpu: 25m
                   memory: 64Mi
                 limits:
-                  memory: 256Mi
+                  memory: 1Gi
           externalDatabase:
             type: postgresql
             host: psql-pooler.postgresql.svc.cluster.local

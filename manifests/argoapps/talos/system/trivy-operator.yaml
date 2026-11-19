@@ -60,12 +60,14 @@ spec:
           # Converted to a VMServiceScrape by the victoria-metrics-operator.
           serviceMonitor:
             enabled: true
+          # The operator OOMed at 512Mi while warming its informer caches on
+          # startup (before any scan ran), restarting 2-3x a day.
           resources:
             requests:
               cpu: 50m
-              memory: 128Mi
+              memory: 256Mi
             limits:
-              memory: 512Mi
+              memory: 1Gi
   destination:
     namespace: trivy-system
     server: https://kubernetes.default.svc
